@@ -1,0 +1,39 @@
+﻿<Page x:Class="SmirnovApp.Views.Pages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SmirnovApp.Views.Pages"
+      xmlns:pagesViewModels="clr-namespace:SmirnovApp.ViewModels.PagesViewModels"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Вход" Style="{StaticResource RootStyle}">
+    <Page.DataContext>
+        <pagesViewModels:LoginPageViewModel/>
+    </Page.DataContext>
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="200">
+            <StackPanel.Resources>
+                <Style TargetType="Label" BasedOn="{StaticResource FormLabel}"/>
+            </StackPanel.Resources>
+
+            <Label Content="Логин"/>
+            <TextBox Style="{DynamicResource PrimaryTextBox}" Text="{Binding Login}" Name="LoginTextBox"/>
+            <Label Content="Пароль"/>
+            <PasswordBox Style="{DynamicResource PrimaryTextBox}" Name="PasswordBox">
+                <PasswordBox.InputBindings>
+                    <KeyBinding Key="Enter"
+                                Command="{Binding LoginCommand}"
+                                CommandParameter="{Binding ElementName=PasswordBox}"/>
+                </PasswordBox.InputBindings>
+            </PasswordBox>
+            <Button Content="{Binding LoginButtonText}" 
+                    HorizontalAlignment="Center" 
+                    Margin="0 15 0 5" 
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding LoginCommand}"
+                    CommandParameter="{Binding ElementName=PasswordBox}"
+                    Width="95"/>
+        </StackPanel>
+    </Grid>
+</Page>

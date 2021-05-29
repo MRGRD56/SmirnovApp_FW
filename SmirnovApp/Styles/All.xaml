@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="RootStyle">
+        <!--Против мыла (без этих свойств элементы, включая текст, могут отображаться смазанно)-->
+        <Setter Property="FrameworkElement.UseLayoutRounding" Value="True"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="Auto"/>
+
+        <Setter Property="Window.MinWidth" Value="400"/>
+        <Setter Property="Window.MinHeight" Value="300"/>
+        <Setter Property="Page.Background" Value="White"/>
+    </Style>
+</ResourceDictionary>
