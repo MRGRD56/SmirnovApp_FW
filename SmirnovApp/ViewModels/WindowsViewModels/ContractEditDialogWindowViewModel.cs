@@ -45,30 +45,31 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
         {
             Statuses = Enum.GetValues(typeof(ContractStatus)).Cast<ContractStatus>().ToList();
 
-            using var db = new AppDbContext();
+            using (var db = new AppDbContext())
+            {
+                db.Owners.Load();
 
-            db.Owners.Load();
-
-            Clients = db.Clients.ToList();
-            Employees = db.Employees.ToList();
-            Estates = db.Estates.ToList();
-            Services = db.Services.ToList();
+                Clients = db.Clients.ToList();
+                Employees = db.Employees.ToList();
+                Estates = db.Estates.ToList();
+                Services = db.Services.ToList();
             
-            if (contract == null)
-            {
-                Contract = new Contract();
-            }
-            else
-            {
-                Contract = (Contract) contract?.Clone();
-                Contract.Client = Clients.Single(x => x.Id == Contract.Client.Id);
-                Contract.Employee = Employees.Single(x => x.Id == Contract.Employee.Id);
-                Contract.Estate = Estates.Single(x => x.Id == Contract.Estate.Id);
-                Contract.Service = Services.Single(x => x.Id == Contract.Service.Id);
+                if (contract == null)
+                {
+                    Contract = new Contract();
+                }
+                else
+                {
+                    Contract = (Contract) contract?.Clone();
+                    Contract.Client = Clients.Single(x => x.Id == Contract.Client.Id);
+                    Contract.Employee = Employees.Single(x => x.Id == Contract.Employee.Id);
+                    Contract.Estate = Estates.Single(x => x.Id == Contract.Estate.Id);
+                    Contract.Service = Services.Single(x => x.Id == Contract.Service.Id);
+                }
             }
         }
 
-        public Command OkCommand => new(o =>
+        public Command OkCommand => new Command(o =>
         {
             var window = (ContractEditDialogWindow) o;
 
@@ -113,7 +114,7 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
             window.Close();
         });
 
-        public Command CancelCommand => new(o =>
+        public Command CancelCommand => new Command(o =>
         {
             var window = (ContractEditDialogWindow) o;
 

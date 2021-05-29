@@ -101,49 +101,55 @@ namespace SmirnovApp.ViewModels.PagesViewModels
 
         public Contract SelectedContract { get; set; }
 
-        public Command AddCommand => new(async _ =>
+        public Command AddCommand => new Command(async _ =>
         {
             var dialogWindow = new ContractEditDialogWindow();
             if (dialogWindow.ShowDialog() != true) return;
 
             var contract = dialogWindow.Contract;
-            await using var db = new AppDbContext();
-            var dbContract = new Contract();
-            await dbContract.CopyPropertiesAsync(contract, db);
-            await db.AddAsync(dbContract);
-            await db.SaveChangesAsync();
-            Items.Add(dbContract);
+            using (var db = new AppDbContext())
+            {
+                var dbContract = new Contract();
+                await dbContract.CopyPropertiesAsync(contract, db);
+                await db.AddAsync(dbContract);
+                await db.SaveChangesAsync();
+                Items.Add(dbContract);
+            }
         });
 
-        public Command EditCommand => new(async _ =>
+        public Command EditCommand => new Command(async _ =>
         {
             var dialogWindow = new ContractEditDialogWindow(SelectedContract);
             if (dialogWindow.ShowDialog() != true) return;
 
             var contract = dialogWindow.Contract;
-            await using var db = new AppDbContext();
-            var dbContract = await db.Contracts.FindAsync(contract.Id);
-            await dbContract.CopyPropertiesAsync(contract, db);
-            await SelectedContract.CopyPropertiesAsync(dbContract, db);
-            await db.SaveChangesAsync();
+            using (var db = new AppDbContext())
+            {
+                var dbContract = await db.Contracts.FindAsync(contract.Id);
+                await dbContract.CopyPropertiesAsync(contract, db);
+                await SelectedContract.CopyPropertiesAsync(dbContract, db);
+                await db.SaveChangesAsync();
+            }
         }, _ => SelectedContract != null);
 
-        public Command RemoveCommand => new(async _ =>
+        public Command RemoveCommand => new Command(async _ =>
         {
             var mbox = MessageBox.Show($"Удалить договор №{SelectedContract.Id}?", "Удаление", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (mbox != MessageBoxResult.OK) return;
 
-            await using var db = new AppDbContext();
-            var dbContract = await db.Contracts.FindAsync(SelectedContract.Id);
-            db.Remove(dbContract);
-            Items.Remove(SelectedContract);
-            await db.SaveChangesAsync();
+            using (var db = new AppDbContext())
+            {
+                var dbContract = await db.Contracts.FindAsync(SelectedContract.Id);
+                db.Remove(dbContract);
+                Items.Remove(SelectedContract);
+                await db.SaveChangesAsync();
+            }
         }, _ => SelectedContract != null);
 
         /// <summary>
         /// Создание документа по выбранному договору.
         /// </summary>
-        public Command CreateDocumentCommand => new(_ =>
+        public Command CreateDocumentCommand => new Command(_ =>
         {
             var fileName = $"{SelectedContract.Name.Replace(" ", "_")}_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.docx";
 
@@ -156,7 +162,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         /// <summary>
         /// Экспорт таблицы всех договоров в DOCX.
         /// </summary>
-        public Command ExportAllCommand => new(_ =>
+        public Command ExportAllCommand => new Command(_ =>
         {
             var fileName = $"Договоры_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.docx";
 
@@ -166,7 +172,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             SaveContractsTableToDocx(fileName);
         });
 
-        public Command ResetFilterCommand => new(_ => 
+        public Command ResetFilterCommand => new Command(_ => 
         {
             ContractNameSearchQuery = "";
             EmployeeSearchQuery = "";
@@ -291,48 +297,49 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         {
             var assembly = Assembly.GetExecutingAssembly();
             const string templateResourceName = "SmirnovApp.Resources.Templates.ContractTemplate.docx";
-            using var templateStream = assembly.GetManifestResourceStream(templateResourceName);
-
-            var document = new XWPFDocument(templateStream);
-
-            var replaces = new List<(string From, string To)>
+            using (var templateStream = assembly.GetManifestResourceStream(templateResourceName))
             {
-                ("CurrentDateYear", DateTime.Now.Year.ToString()),
-                ("OwnerFullName", SelectedContract.Estate.Owner.FullName),
-                ("OwnerPassportSeries", SelectedContract.Estate.Owner.PassportSeries),
-                ("OwnerPassportNumber", SelectedContract.Estate.Owner.PassportNumber),
-                ("OwnerPassportIssuedInfo", SelectedContract.Estate.Owner.PassportIssued),
-                ("OwnerLivingAddress", SelectedContract.Estate.Owner.LivingAddress),
-                ("ClientFullName", SelectedContract.Client.FullName),
-                ("ClientPassportSeries", SelectedContract.Client.PassportSeries),
-                ("ClientPassportNumber", SelectedContract.Client.PassportNumber),
-                ("ClientPassportIssuedInfo", SelectedContract.Client.PassportIssued),
-                ("ClientLivingAddress", SelectedContract.Client.LivingAddress),
-                ("EstateAddress", SelectedContract.Estate.Address),
-                ("EstateEffectiveArea", SelectedContract.Estate.Area.ToString()),
-                //("EstateLivingArea", SelectedContract.Estate.Area.ToString()),
-                ("EstateCost", SelectedContract.Estate.Cost.ToString()),
-                ("ContractAmount", SelectedContract.Amount.ToString()),
-                ("OwnerPassportRegistrationAddress", SelectedContract.Estate.Owner.RegistrationAddress),
-                ("OwnerPassportPostAddress", SelectedContract.Estate.Owner.LivingAddress),
-                ("OwnerPassportFullNumber", SelectedContract.Estate.Owner.PassportFullNumber),
-                ("OwnerPassportIssuedBy", SelectedContract.Estate.Owner.PassportIssuedBy),
-                ("OwnerPassportIssueDate", SelectedContract.Estate.Owner.PassportIssueDate.ToString("dd.MM.yyyy")),
-                ("OwnerPhone", SelectedContract.Estate.Owner.Phone),
-                ("ClientPassportRegistrationAddress", SelectedContract.Client.RegistrationAddress),
-                ("ClientPassportPostAddress", SelectedContract.Client.LivingAddress),
-                ("ClientPassportFullNumber", SelectedContract.Client.PassportFullNumber),
-                ("ClientPassportIssuedBy", SelectedContract.Client.PassportIssuedBy),
-                ("ClientPassportIssueDate", SelectedContract.Client.PassportIssueDate.ToString("dd.MM.yyyy")),
-                ("ClientPhone", SelectedContract.Estate.Owner.Phone),
-            };
+                var document = new XWPFDocument(templateStream);
 
-            //Заменяем параметры в документе на значения.
-            replaces.ForEach(x => document.ReplaceText(x.From, x.To));
+                var replaces = new List<(string From, string To)>
+                {
+                    ("CurrentDateYear", DateTime.Now.Year.ToString()),
+                    ("OwnerFullName", SelectedContract.Estate.Owner.FullName),
+                    ("OwnerPassportSeries", SelectedContract.Estate.Owner.PassportSeries),
+                    ("OwnerPassportNumber", SelectedContract.Estate.Owner.PassportNumber),
+                    ("OwnerPassportIssuedInfo", SelectedContract.Estate.Owner.PassportIssued),
+                    ("OwnerLivingAddress", SelectedContract.Estate.Owner.LivingAddress),
+                    ("ClientFullName", SelectedContract.Client.FullName),
+                    ("ClientPassportSeries", SelectedContract.Client.PassportSeries),
+                    ("ClientPassportNumber", SelectedContract.Client.PassportNumber),
+                    ("ClientPassportIssuedInfo", SelectedContract.Client.PassportIssued),
+                    ("ClientLivingAddress", SelectedContract.Client.LivingAddress),
+                    ("EstateAddress", SelectedContract.Estate.Address),
+                    ("EstateEffectiveArea", SelectedContract.Estate.Area.ToString()),
+                    //("EstateLivingArea", SelectedContract.Estate.Area.ToString()),
+                    ("EstateCost", SelectedContract.Estate.Cost.ToString()),
+                    ("ContractAmount", SelectedContract.Amount.ToString()),
+                    ("OwnerPassportRegistrationAddress", SelectedContract.Estate.Owner.RegistrationAddress),
+                    ("OwnerPassportPostAddress", SelectedContract.Estate.Owner.LivingAddress),
+                    ("OwnerPassportFullNumber", SelectedContract.Estate.Owner.PassportFullNumber),
+                    ("OwnerPassportIssuedBy", SelectedContract.Estate.Owner.PassportIssuedBy),
+                    ("OwnerPassportIssueDate", SelectedContract.Estate.Owner.PassportIssueDate.ToString("dd.MM.yyyy")),
+                    ("OwnerPhone", SelectedContract.Estate.Owner.Phone),
+                    ("ClientPassportRegistrationAddress", SelectedContract.Client.RegistrationAddress),
+                    ("ClientPassportPostAddress", SelectedContract.Client.LivingAddress),
+                    ("ClientPassportFullNumber", SelectedContract.Client.PassportFullNumber),
+                    ("ClientPassportIssuedBy", SelectedContract.Client.PassportIssuedBy),
+                    ("ClientPassportIssueDate", SelectedContract.Client.PassportIssueDate.ToString("dd.MM.yyyy")),
+                    ("ClientPhone", SelectedContract.Estate.Owner.Phone),
+                };
 
-            using (var fileStream = new FileStream(fileName, FileMode.Create))
-            {
-                document.Write(fileStream);
+                //Заменяем параметры в документе на значения.
+                replaces.ForEach(x => document.ReplaceText(x.From, x.To));
+
+                using (var fileStream = new FileStream(fileName, FileMode.Create))
+                {
+                    document.Write(fileStream);
+                }
             }
 
             Process.Start("explorer.exe", $"/select,\"{fileName}\"");

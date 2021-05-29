@@ -11,7 +11,7 @@ namespace SmirnovApp.Common
     {
         internal static User CurrentUser { get; private set; }
 
-        internal static bool IsAuthorized => CurrentUser is not null;
+        internal static bool IsAuthorized => CurrentUser != null;
 
         internal static void Login(User user)
         {

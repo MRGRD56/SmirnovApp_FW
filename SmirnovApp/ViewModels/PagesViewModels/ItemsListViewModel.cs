@@ -22,7 +22,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         public ItemsListViewModel(params Type[] typesToLoad)
         {
             _typesToLoad = typesToLoad;
-            Items = new();
+            Items = new ObservableCollection<T>();
             LoadItems();
         }
 
@@ -31,19 +31,20 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         /// </summary>
         private async void LoadItems()
         {
-            await using var db = new AppDbContext();
-
-            //Если есть коллекции, которые нужно загрузить, загружаем.
-            if (_typesToLoad?.Any() == true)
+            using (var db = new AppDbContext())
             {
-                await db.LoadEntitiesAsync(_typesToLoad);
-            }
+                //Если есть коллекции, которые нужно загрузить, загружаем.
+                if (_typesToLoad?.Any() == true)
+                {
+                    await db.LoadEntitiesAsync(_typesToLoad);
+                }
             
-            var items = db.Set<T>();
-            await items.ForEachAsync(x =>
-            {
-                _syncContext.Send(_ => Items.Add(x), null);
-            });
+                var items = db.Set<T>();
+                await items.ForEachAsync(x =>
+                {
+                    _syncContext.Send(_ => Items.Add(x), null);
+                });
+            }
         }
     }
 }

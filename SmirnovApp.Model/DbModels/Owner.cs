@@ -21,6 +21,6 @@ namespace SmirnovApp.Model.DbModels
         /// </summary>
         public DateTime ApplicationDate { get; set; }
 
-        public List<Estate> Estates { get; set; } = new();
+        public List<Estate> Estates { get; set; } = new List<Estate>();
     }
 }

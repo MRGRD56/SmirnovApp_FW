@@ -11,7 +11,7 @@ namespace SmirnovApp.Converters
 {
     public class ContractStatusConverter : IValueConverter
     {
-        private static readonly Dictionary<ContractStatus, string> _enumValues = new()
+        private static readonly Dictionary<ContractStatus, string> _enumValues = new Dictionary<ContractStatus, string>()
         {
             {ContractStatus.NotPerformed, "Выполняется"},
             {ContractStatus.ServiceProvided, "Выполнен"},

@@ -32,7 +32,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
 
         public string LoginButtonText => IsLoginProgress ? "ВХОД..." : "ВОЙТИ";
 
-        public Command LoginCommand => new(async o =>
+        public Command LoginCommand => new Command(async o =>
         {
             IsLoginProgress = true;
 
@@ -53,24 +53,26 @@ namespace SmirnovApp.ViewModels.PagesViewModels
 
         private async Task LoginAsync(string login, string password)
         {
-            await using var db = new AppDbContext();
-            var user = await Task.Run(async () =>
+            using (var db = new AppDbContext())
             {
-                var users = await db.Users.ToListAsync();
-                return users.SingleOrDefault(x => x.HasCredentials(login, password));
-            });
+                var user = await Task.Run(async () =>
+                {
+                    var users = await db.Users.ToListAsync();
+                    return users.SingleOrDefault(x => x.HasCredentials(login, password));
+                });
 
-            if (user == null)
-            {
+                if (user == null)
+                {
+                    IsLoginProgress = false;
+                    MBox.ShowError("Неверный логин или пароль!");
+                    return;
+                }
+
+                Account.Login(user);
+                Navigation.Navigate<MainMenuPage>();
+
                 IsLoginProgress = false;
-                MBox.ShowError("Неверный логин или пароль!");
-                return;
             }
-
-            Account.Login(user);
-            Navigation.Navigate<MainMenuPage>();
-
-            IsLoginProgress = false;
         }
 
         public LoginPageViewModel()
