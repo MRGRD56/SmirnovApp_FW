@@ -10,7 +10,8 @@
         Title="{Binding WindowTitle}" 
         Height="650" Width="1130"
         Style="{StaticResource RootStyle}"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Background="White">
     <Window.DataContext>
         <windowsViewModels:MainWindowViewModel/>
     </Window.DataContext>

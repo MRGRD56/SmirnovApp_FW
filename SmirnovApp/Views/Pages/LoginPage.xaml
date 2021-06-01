@@ -12,6 +12,9 @@
         <pagesViewModels:LoginPageViewModel/>
     </Page.DataContext>
     <Grid>
+        <DockPanel HorizontalAlignment="Right">
+            <Image Source="/Resources/Images/background.png" DockPanel.Dock="Right"/>
+        </DockPanel>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="200">
             <StackPanel.Resources>
                 <Style TargetType="Label" BasedOn="{StaticResource FormLabel}"/>

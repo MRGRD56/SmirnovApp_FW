@@ -148,7 +148,7 @@
     </Style>
 
     <Style x:Key="OutlineButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButton}">
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="White"/>
         <Setter Property="Foreground" Value="#1e88e5"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="#1e88e5"/>
@@ -176,7 +176,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color" Duration="0:0:0.5"
-                                                        To="Transparent"/>
+                                                        To="White"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

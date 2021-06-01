@@ -13,6 +13,9 @@
         <viewModels:BaseViewModel/>
     </Page.DataContext>
     <Grid>
+        <DockPanel HorizontalAlignment="Right">
+            <Image Source="/Resources/Images/background.png" DockPanel.Dock="Right"/>
+        </DockPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.Resources>
                 <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
