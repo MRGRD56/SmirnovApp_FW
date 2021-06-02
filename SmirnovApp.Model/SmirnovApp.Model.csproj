@@ -49,10 +49,14 @@
     <Compile Include="DbModels\Employee.cs" />
     <Compile Include="DbModels\Estate.cs" />
     <Compile Include="DbModels\EstateType.cs" />
+    <Compile Include="DbModels\ICategoryble.cs" />
+    <Compile Include="DbModels\IndividualClient.cs" />
+    <Compile Include="DbModels\LegalEntityClient.cs" />
     <Compile Include="DbModels\Owner.cs" />
     <Compile Include="DbModels\Person.cs" />
     <Compile Include="DbModels\Position.cs" />
     <Compile Include="DbModels\Service.cs" />
+    <Compile Include="DbModels\ServiceCategory.cs" />
     <Compile Include="DbModels\User.cs" />
     <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

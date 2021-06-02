@@ -23,11 +23,11 @@
                     <Setter Property="Padding" Value="50 5"/>
                 </Style>
             </StackPanel.Resources>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:ContractsPage}" Content="Договоры"/>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:ClientsPage}" Content="Клиенты"/>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:EmployeesPage}" Content="Сотрудники"/>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:OwnersPage}" Content="Владельцы"/>
-            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:EstatesPage}" Content="Имущество"/>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:ContractsPage}" Content="ДОГОВОРЫ"/>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:ClientsPage}" Content="КЛИЕНТЫ"/>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:EmployeesPage}" Content="СОТРУДНИКИ"/>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:OwnersPage}" Content="ВЛАДЕЛЬЦЫ"/>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:EstatesPage}" Content="ИМУЩЕСТВО"/>
         </StackPanel>
     </Grid>
 </Page>

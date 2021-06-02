@@ -8,7 +8,8 @@
         xmlns:windowsViewModels="clr-namespace:SmirnovApp.ViewModels.WindowsViewModels"
         mc:Ignorable="d"
         Title="{Binding WindowTitle}" 
-        Height="650" Width="1130"
+        Height="450" Width="800"
+        MinHeight="400" MinWidth="720"
         Style="{StaticResource RootStyle}"
         WindowStartupLocation="CenterScreen"
         Background="White">
@@ -24,10 +25,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Height="40" Margin="10 0 5 0">
-            <TextBlock Style="{StaticResource Heading4}" Margin="0" 
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource Heading4}" 
+                           Margin="0" 
+                           Text="ИП Хоруженко Я.А."
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"/>
+            </StackPanel>
+            <TextBlock Style="{StaticResource Heading4}" Margin="0 0 5 0" 
                        Text="{Binding WindowTitle}" 
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Left"/>
+                       HorizontalAlignment="Center"/>
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
                 <Button Content="НАЗАД" Style="{StaticResource OutlineButton}"
                         Command="{Binding GoBackCommand}"

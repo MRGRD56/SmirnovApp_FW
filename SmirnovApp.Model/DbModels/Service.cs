@@ -8,7 +8,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Услуга.
     /// </summary>
-    public class Service
+    public class Service : ICategoryble
     {
         public int Id { get; set; }
 
@@ -16,5 +16,7 @@ namespace SmirnovApp.Model.DbModels
 
         [DataType("money")]
         public decimal Cost { get; set; }
+        
+        public ServiceCategory ServiceCategory { get; set; }
     }
 }

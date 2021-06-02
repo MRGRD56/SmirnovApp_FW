@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using SmirnovApp.Model.DbModels;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SmirnovApp.Context
 {
@@ -28,51 +31,67 @@ namespace SmirnovApp.Context
         /// <summary>
         /// Клиенты.
         /// </summary>
-        public virtual DbSet<Client> Clients { get; set; }
+        public DbSet<Client> Clients { get; set; }
+
+        /// <summary>
+        /// Клиенты-физические лица.
+        /// </summary>
+        public DbSet<IndividualClient> IndividualClients { get; set; }
+
+        /// <summary>
+        /// Клиенты-юридические лица.
+        /// </summary>
+        public DbSet<LegalEntityClient> LegalEntityClients { get; set; }
 
         /// <summary>
         /// Договоры.
         /// </summary>
-        public virtual DbSet<Contract> Contracts { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
 
         /// <summary>
         /// Сотрудники.
         /// </summary>
-        public virtual DbSet<Employee> Employees { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         /// <summary>
         /// Недвижимость.
         /// </summary>
-        public virtual DbSet<Estate> Estates { get; set; }
+        public DbSet<Estate> Estates { get; set; }
 
         /// <summary>
         /// Типы недвижимости.
         /// </summary>
-        public virtual DbSet<EstateType> EstateTypes { get; set; }
+        public DbSet<EstateType> EstateTypes { get; set; }
 
         /// <summary>
         /// Владельцы.
         /// </summary>
-        public virtual DbSet<Owner> Owners { get; set; }
+        public DbSet<Owner> Owners { get; set; }
 
         /// <summary>
         /// Люди.
         /// </summary>
-        public virtual DbSet<Person> Persons { get; set; }
+        public DbSet<Person> Persons { get; set; }
 
         /// <summary>
         /// Должности.
         /// </summary>
-        public virtual DbSet<Position> Positions { get; set; }
+        public DbSet<Position> Positions { get; set; }
 
         /// <summary>
         /// Услуги.
         /// </summary>
-        public virtual DbSet<Service> Services { get; set; }
+        public DbSet<Service> Services { get; set; }
 
         /// <summary>
         /// Пользователи приложения.
         /// </summary>
-        public virtual DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        public async Task<List<Contract>> GetAvailableContractsAsync(User user) =>
+            await Contracts.Where(x => x.ServiceCategory == user.ServicesDirection).ToListAsync();
+
+        public async Task<List<Service>> GetAvailableServicesAsync(User user) =>
+            await Services.Where(x => x.ServiceCategory == user.ServicesDirection).ToListAsync();
     }
 }

@@ -10,7 +10,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Договор.
     /// </summary>
-    public class Contract : NotifyPropertyChanged, ICloneable
+    public class Contract : NotifyPropertyChanged, ICloneable, ICategoryble
     {
         private string _name;
         private decimal _amount;
@@ -130,6 +130,12 @@ namespace SmirnovApp.Model.DbModels
             }
         }
         public int EstateId { get; set; }
+
+        public ServiceCategory ServiceCategory
+        {
+            get => Service.ServiceCategory;
+            set => Service.ServiceCategory = value;
+        }
 
         public object Clone()
         {

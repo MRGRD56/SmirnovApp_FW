@@ -8,12 +8,8 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Клиент.
     /// </summary>
-    [Table("Clients")]
-    public class Client : Person
+    public abstract class Client : Person
     {
-        /// <summary>
-        /// Дата обращения.
-        /// </summary>
         public DateTime ApplicationDate { get; set; }
     }
 }

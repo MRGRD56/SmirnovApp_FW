@@ -42,7 +42,14 @@ namespace SmirnovApp
                     new User()
                     {
                         Login = "1",
-                        Password = "1"
+                        Password = "1",
+                        ServicesDirection = ServiceCategory.Legal
+                    },
+                    new User()
+                    {
+                        Login = "2",
+                        Password = "2",
+                        ServicesDirection = ServiceCategory.Realtor
                     },
                     new User()
                     {
@@ -115,9 +122,9 @@ namespace SmirnovApp
                 };
                 db.Owners.AddRange(owners);
 
-                var clients = new List<Client>
+                var individualClients = new List<IndividualClient>
                 {
-                    new Client()
+                    new IndividualClient()
                     {
                         LastName = "Пшеницын",
                         FirstName = "Данила",
@@ -125,13 +132,13 @@ namespace SmirnovApp
                         BirthDate = DateTime.Parse("2000-12-08"),
                         ApplicationDate = DateTime.Now.AddDays(-4),
                         LivingAddress = "Россия, г. Сочи, Белорусская ул., д. 6 кв.34",
-                        RegistrationAddress = "Россия, г. Мытищи, Севернаяул., д. 6 кв.27",
+                        RegistrationAddress = "Россия, г. Мытищи, Северная ул., д. 6 кв.27",
                         PassportSeries = "4597",
                         PassportNumber = "953586",
                         PassportIssueDate = DateTime.Parse("2004-01-22"),
                         PassportIssuedBy = "Отделением УФМС России по г. Сочи"
                     },
-                    new Client()
+                    new IndividualClient()
                     {
                         LastName = "Николаев",
                         FirstName = "Сергей",
@@ -145,7 +152,7 @@ namespace SmirnovApp
                         PassportIssueDate = DateTime.Parse("2008-11-24"),
                         PassportIssuedBy = "Отделением УФМС России по г. Элиста"
                     },
-                    new Client()
+                    new IndividualClient()
                     {
                         LastName = "Шишкина",
                         FirstName = "Ольга",
@@ -160,7 +167,7 @@ namespace SmirnovApp
                         PassportIssuedBy = "ОВД России по г. Махачкала"
                     }
                 };
-                db.Clients.AddRange(clients);
+                db.IndividualClients.AddRange(individualClients);
 
                 var employees = new List<Employee>
                 {
@@ -275,12 +282,26 @@ namespace SmirnovApp
                     new Service()
                     {
                         Name = "Задача организации, в особенности",
-                        Cost = 12_000
+                        Cost = 12_000,
+                        ServiceCategory = ServiceCategory.Legal
                     },
                     new Service()
                     {
                         Name = "Но укрепление и развитие",
-                        Cost = 6_600
+                        Cost = 6_600,
+                        ServiceCategory = ServiceCategory.Realtor
+                    },
+                    new Service()
+                    {
+                        Name = "Вторая юридическая услуга",
+                        Cost = 23_000,
+                        ServiceCategory = ServiceCategory.Legal
+                    },
+                    new Service()
+                    {
+                        Name = "Риэлторская услуга номер два",
+                        Cost = 18_990,
+                        ServiceCategory = ServiceCategory.Realtor
                     }
                 };
                 db.Services.AddRange(services);
@@ -291,7 +312,7 @@ namespace SmirnovApp
                     {
                         Name = "В рамках спецификации современных стандартов",
                         Amount = 120_000,
-                        Client = clients[0],
+                        Client = individualClients[0],
                         Employee = employees[0],
                         Estate = estates[0],
                         Service = services[0],
@@ -302,7 +323,7 @@ namespace SmirnovApp
                     {
                         Name = "Внезапно, интерактивные прототипы неоднозначны",
                         Amount = 1_400_000,
-                        Client = clients[1],
+                        Client = individualClients[1],
                         Employee = employees[1],
                         Estate = estates[1],
                         Service = services[1],
@@ -313,7 +334,7 @@ namespace SmirnovApp
                     {
                         Name = "Значимость этих проблем настолько очевидна",
                         Amount = 800_000,
-                        Client = clients[2],
+                        Client = individualClients[2],
                         Employee = employees[2],
                         Estate = estates[2],
                         Service = services[1],

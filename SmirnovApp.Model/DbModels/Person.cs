@@ -15,38 +15,38 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Фамилия.
         /// </summary>
-        public string LastName { get; set; }
+        public virtual string LastName { get; set; }
 
         /// <summary>
         /// Имя.
         /// </summary>
-        public string FirstName { get; set; }
+        public virtual string FirstName { get; set; }
 
         /// <summary>
         /// Отчество.
         /// </summary>
-        public string Patronymic { get; set; }
+        public virtual string Patronymic { get; set; }
 
         /// <summary>
         /// Дата рождения.
         /// </summary>
         [DataType("date")]
-        public DateTime BirthDate { get; set; }
+        public virtual DateTime BirthDate { get; set; }
 
         /// <summary>
         /// ФИО.
         /// </summary>
-        public string FullName => $"{LastName} {FirstName} {Patronymic}";
+        public virtual string FullName => $"{LastName} {FirstName} {Patronymic}";
 
         /// <summary>
         /// Серия паспорта.
         /// </summary>
-        public string PassportSeries { get; set; }
+        public virtual string PassportSeries { get; set; }
 
         /// <summary>
         /// Номер паспорта.
         /// </summary>
-        public string PassportNumber { get; set; }
+        public virtual string PassportNumber { get; set; }
 
         /// <summary>
         /// Серия и номер паспорта.
@@ -56,12 +56,12 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Кем выдан.
         /// </summary>
-        public string PassportIssuedBy { get; set; }
+        public virtual string PassportIssuedBy { get; set; }
 
         /// <summary>
         /// Когда выдан.
         /// </summary>
-        public DateTime PassportIssueDate { get; set; }
+        public virtual DateTime PassportIssueDate { get; set; }
 
         /// <summary>
         /// Дата выдачи и кем выдан.
@@ -71,11 +71,11 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Адрес проживания.
         /// </summary>
-        public string LivingAddress { get; set; }
+        public virtual string LivingAddress { get; set; }
 
         /// <summary>
         /// Адрес регистрации.
         /// </summary>
-        public string RegistrationAddress { get; set; }
+        public virtual string RegistrationAddress { get; set; }
     }
 }
