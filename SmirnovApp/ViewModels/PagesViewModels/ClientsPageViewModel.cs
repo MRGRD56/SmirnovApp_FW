@@ -19,8 +19,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         public ObservableCollection<LegalEntityClient> LegalEntityClients { get; } = 
             new ObservableCollection<LegalEntityClient>();
 
-        public ObservableCollection<Client> Clients { get; } =
-            new ObservableCollection<Client>();
+        public ObservableCollection<Client> Clients { get; } = new ObservableCollection<Client>();
 
         private readonly SynchronizationContext _syncContext = SynchronizationContext.Current;
 
