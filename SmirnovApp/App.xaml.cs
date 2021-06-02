@@ -151,8 +151,13 @@ namespace SmirnovApp
                         PassportNumber = "449572",
                         PassportIssueDate = DateTime.Parse("2008-11-24"),
                         PassportIssuedBy = "Отделением УФМС России по г. Элиста"
-                    },
-                    new IndividualClient()
+                    }
+                };
+                db.IndividualClients.AddRange(individualClients);
+
+                var legalEntityClients = new List<LegalEntityClient>
+                {
+                    new LegalEntityClient()
                     {
                         LastName = "Шишкина",
                         FirstName = "Ольга",
@@ -164,10 +169,11 @@ namespace SmirnovApp
                         PassportSeries = "4590",
                         PassportNumber = "112174",
                         PassportIssueDate = DateTime.Parse("2011-10-05"),
-                        PassportIssuedBy = "ОВД России по г. Махачкала"
+                        PassportIssuedBy = "ОВД России по г. Махачкала",
+                        Name = "Google Inc."
                     }
                 };
-                db.IndividualClients.AddRange(individualClients);
+                db.LegalEntityClients.AddRange(legalEntityClients);
 
                 var employees = new List<Employee>
                 {
@@ -334,10 +340,10 @@ namespace SmirnovApp
                     {
                         Name = "Значимость этих проблем настолько очевидна",
                         Amount = 800_000,
-                        Client = individualClients[2],
+                        Client = legalEntityClients[0],
                         Employee = employees[2],
                         Estate = estates[2],
-                        Service = services[1],
+                        Service = services[2],
                         Date = DateTime.Parse("2021-05-11"),
                         Status = ContractStatus.NotPerformed
                     }

@@ -14,7 +14,7 @@ namespace SmirnovApp.Model.DbModels
     {
         #region СКРЫТИЕ ЧЛЕНОВ РОДИТЕЛЬСКОГО КЛАССА Person
 
-        public new string FirstName
+        private new string FirstName
         {
             get => base.FirstName;
             set => base.FirstName = value;
