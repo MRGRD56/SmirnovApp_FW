@@ -201,6 +201,7 @@
     <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="Extensions\XWPFDocumentExtensions.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\PagesViewModels\ClientsPageViewModel.cs" />
     <Compile Include="ViewModels\PagesViewModels\ContractsPageViewModel.cs" />
     <Compile Include="ViewModels\PagesViewModels\ItemsListViewModel.cs" />
     <Compile Include="ViewModels\PagesViewModels\LoginPageViewModel.cs" />

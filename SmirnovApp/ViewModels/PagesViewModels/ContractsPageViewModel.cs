@@ -31,15 +31,15 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         private string _ownerSearchQuery = "";
 
         public ContractsPageViewModel()
-            : base(typeof(Client), typeof(Employee), typeof(Estate), typeof(Service), typeof(Owner))
+            : base(typeof(IndividualClient), typeof(LegalEntityClient), typeof(Employee), typeof(Estate), typeof(Service), typeof(Owner))
         {
             ContractsView = CollectionViewSource.GetDefaultView(Items);
             ContractsView.Filter += ContractsViewFilter;
         }
 
-        private bool ContractsViewFilter(object o)
+        private bool ContractsViewFilter(object item)
         {
-            var contract = (Contract)o;
+            var contract = (Contract)item;
 
             return CheckMatch(ContractNameSearchQuery, contract.Name)
                 && CheckMatch(EmployeeSearchQuery, contract.Employee.FullName)

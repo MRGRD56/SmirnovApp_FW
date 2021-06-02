@@ -3,22 +3,46 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SmirnovApp.Views.Pages"
+      xmlns:local="clr-namespace:SmirnovApp.Views.Pages" xmlns:pagesviewmodels="clr-namespace:SmirnovApp.ViewModels.PagesViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Style="{StaticResource RootStyle}"
       Title="Клиенты">
-
+    <Page.DataContext>
+        <pagesviewmodels:ClientsPageViewModel/>
+    </Page.DataContext>
     <Grid>
-        <DataGrid ItemsSource="{Binding Items}" Style="{StaticResource ReadonlyDataGrid}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
-                <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}"/>
-                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, ConverterCulture=ru-RU, StringFormat={}{0:d}}"/>
-                <DataGridTextColumn Header="Дата обращения" Binding="{Binding ApplicationDate, ConverterCulture=ru-RU, StringFormat={}{0:d}}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            
+        </Grid>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Физические лица">
+                <DataGrid ItemsSource="{Binding IndividualClients}" Style="{StaticResource ReadonlyDataGrid}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}"/>
+                        <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, ConverterCulture=ru-RU, StringFormat={}{0:d}}"/>
+                        <DataGridTextColumn Header="Дата обращения" Binding="{Binding ApplicationDate, ConverterCulture=ru-RU, StringFormat={}{0:d}}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Юридические лица">
+                <DataGrid ItemsSource="{Binding LegalEntityClients}" Style="{StaticResource ReadonlyDataGrid}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Директор" Binding="{Binding Director.FullName}"/>
+                        <DataGridTextColumn Header="Дата рождения директора" Binding="{Binding Director.BirthDate, ConverterCulture=ru-RU, StringFormat={}{0:d}}"/>
+                        <DataGridTextColumn Header="Дата обращения" Binding="{Binding ApplicationDate, ConverterCulture=ru-RU, StringFormat={}{0:d}}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Page>

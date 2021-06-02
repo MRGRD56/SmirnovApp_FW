@@ -352,7 +352,6 @@ namespace SmirnovApp
 
                 db.SaveChanges();
             }
-
         }
 
         public App()
