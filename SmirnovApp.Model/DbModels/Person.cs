@@ -15,23 +15,23 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Фамилия.
         /// </summary>
-        public virtual string LastName { get; set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Имя.
         /// </summary>
-        public virtual string FirstName { get; set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Отчество.
         /// </summary>
-        public virtual string Patronymic { get; set; }
+        public string Patronymic { get; set; }
 
         /// <summary>
         /// Дата рождения.
         /// </summary>
         [DataType("date")]
-        public virtual DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
 
         /// <summary>
         /// ФИО.
@@ -41,12 +41,12 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Серия паспорта.
         /// </summary>
-        public virtual string PassportSeries { get; set; }
+        public string PassportSeries { get; set; }
 
         /// <summary>
         /// Номер паспорта.
         /// </summary>
-        public virtual string PassportNumber { get; set; }
+        public  string PassportNumber { get; set; }
 
         /// <summary>
         /// Серия и номер паспорта.
@@ -56,12 +56,12 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Кем выдан.
         /// </summary>
-        public virtual string PassportIssuedBy { get; set; }
+        public string PassportIssuedBy { get; set; }
 
         /// <summary>
         /// Когда выдан.
         /// </summary>
-        public virtual DateTime PassportIssueDate { get; set; }
+        public DateTime PassportIssueDate { get; set; }
 
         /// <summary>
         /// Дата выдачи и кем выдан.
@@ -71,11 +71,11 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Адрес проживания.
         /// </summary>
-        public virtual string LivingAddress { get; set; }
+        public string LivingAddress { get; set; }
 
         /// <summary>
         /// Адрес регистрации.
         /// </summary>
-        public virtual string RegistrationAddress { get; set; }
+        public string RegistrationAddress { get; set; }
     }
 }

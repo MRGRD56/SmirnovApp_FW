@@ -100,5 +100,24 @@ namespace SmirnovApp.Model.DbModels
             PassportSeries = PassportSeries,
             RegistrationAddress = RegistrationAddress
         };
+
+        public override object Clone()
+        {
+            return new LegalEntityClient
+            {
+                LastName = LastName,
+                FirstName = FirstName,
+                Patronymic = Patronymic,
+                BirthDate = BirthDate,
+                PassportSeries = PassportSeries,
+                PassportNumber = PassportNumber,
+                PassportIssuedBy = PassportIssuedBy,
+                PassportIssueDate = PassportIssueDate,
+                LivingAddress = LivingAddress,
+                RegistrationAddress = RegistrationAddress,
+                ApplicationDate = ApplicationDate,
+                Name = Name
+            };
+        }
     }
 }

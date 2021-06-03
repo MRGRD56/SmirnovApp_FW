@@ -206,6 +206,7 @@
     <Compile Include="ViewModels\PagesViewModels\ContractsPageViewModel.cs" />
     <Compile Include="ViewModels\PagesViewModels\ItemsListViewModel.cs" />
     <Compile Include="ViewModels\PagesViewModels\LoginPageViewModel.cs" />
+    <Compile Include="ViewModels\WindowsViewModels\ClientEditDialogWindowViewModel.cs" />
     <Compile Include="ViewModels\WindowsViewModels\ContractEditDialogWindowViewModel.cs" />
     <Compile Include="ViewModels\WindowsViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\Pages\ClientsPage.xaml.cs">
@@ -231,6 +232,9 @@
     </Compile>
     <Compile Include="Views\Pages\ServicesPage.xaml.cs">
       <DependentUpon>ServicesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\ClientEditDialogWindow.xaml.cs">
+      <DependentUpon>ClientEditDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\ContractEditDialogWindow.xaml.cs">
       <DependentUpon>ContractEditDialogWindow.xaml</DependentUpon>
@@ -295,6 +299,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Pages\ServicesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ClientEditDialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

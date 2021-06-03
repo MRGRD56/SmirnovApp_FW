@@ -16,12 +16,28 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid>
-            
+        <Grid Grid.Row="0" Margin="5">
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                        <Setter Property="Margin" Value="0 0 3 0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button ToolTip="Добавить" Command="{Binding AddCommand}">
+                    <Image Source="/Resources/Icons/baseline_add_black_24dp.png" />
+                </Button>
+                <Button ToolTip="Редактировать выбранный" Command="{Binding EditCommand}">
+                    <Image Source="/Resources/Icons/baseline_edit_black_24dp.png" />
+                </Button>
+                <Button ToolTip="Удалить выбранный" Command="{Binding RemoveCommand}">
+                    <Image Source="/Resources/Icons/baseline_delete_black_24dp.png" />
+                </Button>
+            </StackPanel>
         </Grid>
-        <TabControl Grid.Row="1">
+        <TabControl Grid.Row="1" SelectedIndex="{Binding CurrentTab}">
             <TabItem Header="Физические лица">
-                <DataGrid ItemsSource="{Binding IndividualClients}" Style="{StaticResource ReadonlyDataGrid}">
+                <DataGrid ItemsSource="{Binding IndividualClients}" Style="{StaticResource ReadonlyDataGrid}"
+                          SelectedItem="{Binding SelectedIndividualClient}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                         <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
@@ -33,7 +49,8 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Юридические лица">
-                <DataGrid ItemsSource="{Binding LegalEntityClients}" Style="{StaticResource ReadonlyDataGrid}">
+                <DataGrid ItemsSource="{Binding LegalEntityClients}" Style="{StaticResource ReadonlyDataGrid}"
+                          SelectedItem="{Binding SelectedLegalEntityClient}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                         <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
