@@ -52,7 +52,7 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
                 Clients = db.Clients.ToList();
                 Employees = db.Employees.ToList();
                 Estates = db.Estates.ToList();
-                Services = db.Services.ToList();
+                Services = db.GetAvailableServices(Account.CurrentUser);
             
                 if (contract == null)
                 {

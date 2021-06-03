@@ -18,5 +18,6 @@ namespace SmirnovApp.Model.DbModels
         public decimal Cost { get; set; }
         
         public ServiceCategory ServiceCategory { get; set; }
+        public ServiceCategory GetServiceCategory() => ServiceCategory;
     }
 }

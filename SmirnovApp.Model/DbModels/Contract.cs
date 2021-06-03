@@ -131,11 +131,7 @@ namespace SmirnovApp.Model.DbModels
         }
         public int EstateId { get; set; }
 
-        public ServiceCategory ServiceCategory
-        {
-            get => Service.ServiceCategory;
-            set => Service.ServiceCategory = value;
-        }
+        public ServiceCategory GetServiceCategory() => Service.ServiceCategory;
 
         public object Clone()
         {

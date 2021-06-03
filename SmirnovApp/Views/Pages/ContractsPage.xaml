@@ -15,6 +15,7 @@
     </Page.DataContext>
     <Page.Resources>
         <converters:ContractStatusConverter x:Key="ContractStatusConverter"/>
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -65,13 +66,9 @@
                     <Grid Margin="3 0 3 3">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
-                            <RowDefinition Height="3"/>
                             <RowDefinition/>
-                            <RowDefinition Height="3"/>
                             <RowDefinition/>
-                            <RowDefinition Height="3"/>
                             <RowDefinition/>
-                            <RowDefinition Height="3"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -86,17 +83,63 @@
                             <Style TargetType="TextBox" BasedOn="{StaticResource PrimaryTextBox}"></Style>
                         </Grid.Resources>
                         <Label Grid.Row="0" Grid.Column="0" Content="Название договора"/>
-                        <Label Grid.Row="2" Grid.Column="0" Content="ФИО сотрудника"/>
-                        <Label Grid.Row="4" Grid.Column="0" Content="ФИО клиента"/>
-                        <Label Grid.Row="6" Grid.Column="0" Content="ФИО владельца"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="ФИО сотрудника" 
+                               Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}"
+                               Margin="0 3 0 0"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="ФИО клиента"
+                               Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}"
+                               Margin="0 3 0 0"/>
+                        <Label Grid.Row="3" Grid.Column="0" Content="ФИО владельца"
+                               Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}"
+                               Margin="0 3 0 0"/>
 
-                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ContractNameSearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding EmployeeSearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Grid.Row="4" Grid.Column="2" Text="{Binding ClientSearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox Grid.Row="6" Grid.Column="2" Text="{Binding OwnerSearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ContractNameSearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}"/>
+                        <Grid Grid.Row="0" Grid.Column="2"
+                              Visibility="{Binding IsSearchNotExpanded, Converter={StaticResource VisibilityConverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding ContractNameSearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Grid.Column="1" Content="СБРОСИТЬ" Margin="3 0 3 0"
+                                    Style="{StaticResource OutlineButton}"
+                                    Command="{Binding ResetFilterCommand}"/>
+                            <Button Grid.Column="2" Style="{StaticResource IconButton}"
+                                    Command="{Binding ToggleExpandSearchCommand}"
+                                    ToolTip="Расширить поиск">
+                                <Image Source="/Resources/Icons/outline_expand_more_black_24dp.png"/>
+                            </Button>
+                        </Grid>
+                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding EmployeeSearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}"
+                                 Margin="0 3 0 0"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" Text="{Binding ClientSearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}"
+                                 Margin="0 3 0 0"/>
+                        <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding OwnerSearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}"
+                                 Margin="0 3 0 0"/>
 
-                        <Button Grid.Row="8" Grid.ColumnSpan="3" HorizontalAlignment="Right" Content="СБРОСИТЬ" Style="{StaticResource OutlineButton}"
-                                Command="{Binding ResetFilterCommand}"/>
+                        <StackPanel Grid.Row="4" Margin="0 3 0 0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right"
+                                    Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}">
+                            <Button Style="{StaticResource IconButton}"
+                                    Command="{Binding ToggleExpandSearchCommand}" Margin="0 0 3 0"
+                                    Visibility="{Binding IsSearchExpanded, Converter={StaticResource VisibilityConverter}}"
+                                    ToolTip="Уменьшить поиск">
+                                <Image Source="/Resources/Icons/outline_expand_less_black_24dp.png"/>
+                            </Button>
+                            <Button Style="{StaticResource IconButton}"
+                                    Command="{Binding ToggleExpandSearchCommand}" Margin="0 0 3 0"
+                                    Visibility="{Binding IsSearchNotExpanded, Converter={StaticResource VisibilityConverter}}"
+                                    ToolTip="Расширить поиск">
+                                <Image Source="/Resources/Icons/outline_expand_more_black_24dp.png"/>
+                            </Button>
+                            <Button Content="СБРОСИТЬ" 
+                                    Style="{StaticResource OutlineButton}"
+                                    Command="{Binding ResetFilterCommand}"/>
+                        </StackPanel>
                     </Grid>
                 </GroupBox>
             </StackPanel>

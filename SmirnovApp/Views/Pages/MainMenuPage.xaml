@@ -28,6 +28,7 @@
             <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:EmployeesPage}" Content="СОТРУДНИКИ"/>
             <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:OwnersPage}" Content="ВЛАДЕЛЬЦЫ"/>
             <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:EstatesPage}" Content="ИМУЩЕСТВО"/>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="{x:Type local:ServicesPage}" Content="УСЛУГИ"/>
         </StackPanel>
     </Grid>
 </Page>

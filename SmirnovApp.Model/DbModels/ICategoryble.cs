@@ -8,6 +8,6 @@ namespace SmirnovApp.Model.DbModels
 {
     public interface ICategoryble
     {
-        ServiceCategory ServiceCategory { get; set; }
+        ServiceCategory GetServiceCategory();
     }
 }

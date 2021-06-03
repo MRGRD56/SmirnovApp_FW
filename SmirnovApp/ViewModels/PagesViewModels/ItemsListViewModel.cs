@@ -6,9 +6,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
+using SmirnovApp.Common;
 using SmirnovApp.Context;
 using SmirnovApp.Extensions;
+using SmirnovApp.Model.DbModels;
 
 namespace SmirnovApp.ViewModels.PagesViewModels
 {
@@ -38,9 +41,19 @@ namespace SmirnovApp.ViewModels.PagesViewModels
                 {
                     await db.LoadEntitiesAsync(_typesToLoad);
                 }
-            
-                var items = db.Set<T>();
-                await items.ForEachAsync(x =>
+
+                var items = await db.Set<T>().ToListAsync();
+                items = items.Where(item =>
+                {
+                    if (item is ICategoryble categoryble && Account.IsAuthorized)
+                    {
+                        return categoryble.GetServiceCategory() == Account.CurrentUser.ServicesDirection;
+                    }
+
+                    return true;
+                }).ToList();
+
+                items.ForEach(x =>
                 {
                     _syncContext.Send(_ => Items.Add(x), null);
                 });

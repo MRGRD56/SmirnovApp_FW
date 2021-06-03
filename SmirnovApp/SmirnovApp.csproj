@@ -197,6 +197,7 @@
     <Compile Include="Common\MBox.cs" />
     <Compile Include="Common\Navigation.cs" />
     <Compile Include="Converters\ContractStatusConverter.cs" />
+    <Compile Include="Converters\ServiceCategoryConverter.cs" />
     <Compile Include="Extensions\ContractExtensions.cs" />
     <Compile Include="Extensions\DbContextExtensions.cs" />
     <Compile Include="Extensions\XWPFDocumentExtensions.cs" />
@@ -227,6 +228,9 @@
     </Compile>
     <Compile Include="Views\Pages\OwnersPage.xaml.cs">
       <DependentUpon>OwnersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ServicesPage.xaml.cs">
+      <DependentUpon>ServicesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\ContractEditDialogWindow.xaml.cs">
       <DependentUpon>ContractEditDialogWindow.xaml</DependentUpon>
@@ -290,6 +294,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Pages\ServicesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Windows\ContractEditDialogWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -347,6 +355,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\outline_expand_more_black_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\outline_expand_less_black_24dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

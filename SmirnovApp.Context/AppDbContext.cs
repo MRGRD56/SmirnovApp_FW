@@ -88,8 +88,16 @@ namespace SmirnovApp.Context
         /// </summary>
         public DbSet<User> Users { get; set; }
 
+
+        public List<Contract> GetAvailableContracts(User user) =>
+            Contracts.Where(x => x.Service.ServiceCategory == user.ServicesDirection).ToList();
+
         public async Task<List<Contract>> GetAvailableContractsAsync(User user) =>
-            await Contracts.Where(x => x.ServiceCategory == user.ServicesDirection).ToListAsync();
+            await Contracts.Where(x => x.Service.ServiceCategory == user.ServicesDirection).ToListAsync();
+
+
+        public List<Service> GetAvailableServices(User user) =>
+            Services.Where(x => x.ServiceCategory == user.ServicesDirection).ToList();
 
         public async Task<List<Service>> GetAvailableServicesAsync(User user) =>
             await Services.Where(x => x.ServiceCategory == user.ServicesDirection).ToListAsync();

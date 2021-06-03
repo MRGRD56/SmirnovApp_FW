@@ -29,9 +29,10 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         private string _employeeSearchQuery = "";
         private string _clientSearchQuery = "";
         private string _ownerSearchQuery = "";
+        private bool _isSearchExpanded;
 
         public ContractsPageViewModel()
-            : base(typeof(IndividualClient), typeof(LegalEntityClient), typeof(Employee), typeof(Estate), typeof(Service), typeof(Owner))
+            : base(typeof(Service), typeof(IndividualClient), typeof(LegalEntityClient), typeof(Employee), typeof(Estate), typeof(Owner))
         {
             ContractsView = CollectionViewSource.GetDefaultView(Items);
             ContractsView.Filter += ContractsViewFilter;
@@ -100,6 +101,24 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         public ICollectionView ContractsView { get; }
 
         public Contract SelectedContract { get; set; }
+
+        public bool IsSearchExpanded
+        {
+            get => _isSearchExpanded;
+            set
+            {
+                _isSearchExpanded = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSearchNotExpanded));
+            }
+        }
+
+        public bool IsSearchNotExpanded => !IsSearchExpanded;
+
+        public Command ToggleExpandSearchCommand => new Command(_ =>
+        {
+            IsSearchExpanded = !IsSearchExpanded;
+        });
 
         public Command AddCommand => new Command(async _ =>
         {
