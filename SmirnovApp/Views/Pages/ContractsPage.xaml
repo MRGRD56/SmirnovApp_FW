@@ -193,6 +193,7 @@
                     <DataGridTextColumn Header="Сотрудник" Binding="{Binding Employee.FullName}"/>
                     <DataGridTextColumn Header="Владелец" Binding="{Binding Estate.Owner.FullName}"/>
                     <DataGridTextColumn Header="Имущество" Binding="{Binding Estate.Address}"/>
+                    <DataGridTextColumn Header="Услуга" Binding="{Binding Service.Name}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
