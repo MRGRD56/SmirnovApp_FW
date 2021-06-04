@@ -38,6 +38,9 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="{Binding CurrentUser.RoleName}"
+                           Style="{StaticResource Heading6}" Margin="10 -2 10 0" FontWeight="SemiBold" 
+                           VerticalAlignment="Center"/>
                 <Button Content="НАЗАД" Style="{StaticResource OutlineButton}"
                         Command="{Binding GoBackCommand}"
                         Visibility="{Binding CanGoBack, Converter={StaticResource VisibilityConverter}}"/>

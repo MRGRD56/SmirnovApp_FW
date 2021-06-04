@@ -26,6 +26,22 @@ namespace SmirnovApp.Model.DbModels
         /// </summary>
         public ServiceCategory ServicesDirection { get; set; }
 
+        public string RoleName
+        {
+            get
+            {
+                switch (ServicesDirection)
+                {
+                    case ServiceCategory.Legal:
+                        return "Юрист";
+                    case ServiceCategory.Realtor:
+                        return "Риэлтор";
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(ServicesDirection));
+                }
+            }
+        }
+
         /// <summary>
         /// Проверяет, имеет ли пользователь указанные данные для входа.
         /// </summary>
