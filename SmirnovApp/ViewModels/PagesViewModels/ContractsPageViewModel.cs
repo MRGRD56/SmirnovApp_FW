@@ -30,12 +30,24 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         private string _clientSearchQuery = "";
         private string _ownerSearchQuery = "";
         private bool _isSearchExpanded;
+        private DateTime? _dateSearchQuery;
+        private int _foundContractsCount;
+        private int _foundClientsCount;
+        private int _foundServicesCount;
+        private int _lastMonthClientsCount;
+        private int _lastMonthServicesCount;
 
         public ContractsPageViewModel()
             : base(typeof(Service), typeof(IndividualClient), typeof(LegalEntityClient), typeof(Employee), typeof(Estate), typeof(Owner))
         {
             ContractsView = CollectionViewSource.GetDefaultView(Items);
             ContractsView.Filter += ContractsViewFilter;
+            ItemsLoaded += OnItemsLoaded;
+        }
+
+        private void OnItemsLoaded(object sender, EventArgs e)
+        {
+            UpdateStatistics();
         }
 
         private bool ContractsViewFilter(object item)
@@ -45,7 +57,8 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             return CheckMatch(ContractNameSearchQuery, contract.Name)
                 && CheckMatch(EmployeeSearchQuery, contract.Employee.FullName)
                 && CheckMatch(ClientSearchQuery, contract.Client.FullName)
-                && CheckMatch(OwnerSearchQuery, contract.Estate.Owner.FullName);
+                && CheckMatch(OwnerSearchQuery, contract.Estate.Owner.FullName)
+                && CheckDateMatch(DateSearchQuery, contract.Date);
         }
 
         private static bool CheckMatch(string query, string value)
@@ -54,6 +67,35 @@ namespace SmirnovApp.ViewModels.PagesViewModels
                 || value.Trim().ToLower().Contains(query.Trim().ToLower());
         }
 
+        private static bool CheckDateMatch(DateTime? query, DateTime value) =>
+            !query.HasValue || query.Value.Date == value.Date;
+
+        private void RefreshContracts()
+        {
+            ContractsView.Refresh();
+            UpdateStatistics();
+        }
+
+        private void UpdateStatistics()
+        {
+            var foundContracts = ContractsView.Cast<Contract>().ToList();
+            FoundContractsCount = foundContracts.Count;
+            FoundClientsCount = GetDifferentClientsCount(foundContracts);
+            FoundServicesCount = GetDifferentServicesCount(foundContracts);
+
+            var lastMonthContracts = Items
+                .Where(contract => contract.Date.Date >= DateTime.Today.AddDays(-30))
+                .ToList();
+            LastMonthClientsCount = GetDifferentClientsCount(lastMonthContracts);
+            LastMonthServicesCount = GetDifferentServicesCount(lastMonthContracts);
+        }
+
+        private static int GetDifferentServicesCount(List<Contract> contracts) => 
+            contracts.GroupBy(contract => contract.Service.Id).Count();
+
+        private static int GetDifferentClientsCount(List<Contract> contracts) => 
+            contracts.GroupBy(contract => contract.Client.Id).Count();
+
         public string ContractNameSearchQuery
         {
             get => _contractNameSearchQuery;
@@ -61,7 +103,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             {
                 _contractNameSearchQuery = value;
                 OnPropertyChanged();
-                ContractsView.Refresh();
+                RefreshContracts();
             }
         }
 
@@ -72,7 +114,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             {
                 _employeeSearchQuery = value;
                 OnPropertyChanged();
-                ContractsView.Refresh();
+                RefreshContracts();
             }
         }
 
@@ -83,7 +125,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             {
                 _clientSearchQuery = value;
                 OnPropertyChanged();
-                ContractsView.Refresh();
+                RefreshContracts();
             }
         }
 
@@ -94,7 +136,18 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             {
                 _ownerSearchQuery = value;
                 OnPropertyChanged();
-                ContractsView.Refresh();
+                RefreshContracts();
+            }
+        }
+
+        public DateTime? DateSearchQuery
+        {
+            get => _dateSearchQuery;
+            set
+            {
+                _dateSearchQuery = value;
+                OnPropertyChanged();
+                RefreshContracts();
             }
         }
 
@@ -115,6 +168,54 @@ namespace SmirnovApp.ViewModels.PagesViewModels
 
         public bool IsSearchNotExpanded => !IsSearchExpanded;
 
+        public int FoundContractsCount
+        {
+            get => _foundContractsCount;
+            set
+            {
+                _foundContractsCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int FoundClientsCount
+        {
+            get => _foundClientsCount;
+            set
+            {
+                _foundClientsCount = value;
+                OnPropertyChanged();
+            }
+        }
+        public int FoundServicesCount
+        {
+            get => _foundServicesCount;
+            set
+            {
+                _foundServicesCount = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int LastMonthClientsCount 
+        { 
+            get => _lastMonthClientsCount; 
+            set 
+            {
+                _lastMonthClientsCount = value;
+                OnPropertyChanged();
+            } 
+        }
+        public int LastMonthServicesCount 
+        { 
+            get => _lastMonthServicesCount; 
+            set 
+            {
+                _lastMonthServicesCount = value;
+                OnPropertyChanged();
+            } 
+        }
+
         public Command ToggleExpandSearchCommand => new Command(_ =>
         {
             IsSearchExpanded = !IsSearchExpanded;
@@ -133,6 +234,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
                 await db.AddAsync(dbContract);
                 await db.SaveChangesAsync();
                 Items.Add(dbContract);
+                UpdateStatistics();
             }
         });
 
@@ -148,6 +250,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
                 await dbContract.CopyPropertiesAsync(contract, db);
                 await SelectedContract.CopyPropertiesAsync(dbContract, db);
                 await db.SaveChangesAsync();
+                UpdateStatistics();
             }
         }, _ => SelectedContract != null);
 
@@ -162,6 +265,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
                 db.Remove(dbContract);
                 Items.Remove(SelectedContract);
                 await db.SaveChangesAsync();
+                UpdateStatistics();
             }
         }, _ => SelectedContract != null);
 
@@ -191,12 +295,13 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             SaveContractsTableToDocx(fileName);
         });
 
-        public Command ResetFilterCommand => new Command(_ => 
+        public Command ResetFilterCommand => new Command(_ =>
         {
             ContractNameSearchQuery = "";
             EmployeeSearchQuery = "";
             ClientSearchQuery = "";
             OwnerSearchQuery = "";
+            DateSearchQuery = null;
         });
 
         /// <summary>
@@ -228,7 +333,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             var document = new XWPFDocument();
             const ulong documentMargin = 200;
             //Задаём настройки документа.
-            document.Document.body.sectPr = new CT_SectPr 
+            document.Document.body.sectPr = new CT_SectPr
             {
                 //Устанавливаем отступы от краёв.
                 pgMar = new CT_PageMar
@@ -297,7 +402,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             }
 
             //Сохраняем в файл.
-            using (var stream = new FileStream(fileName, FileMode.Create)) 
+            using (var stream = new FileStream(fileName, FileMode.Create))
             {
                 document.Write(stream);
             }

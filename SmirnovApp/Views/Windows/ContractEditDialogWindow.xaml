@@ -58,6 +58,7 @@
                 </Style>
                 <Style TargetType="DatePicker">
                     <Setter Property="Margin" Value="2"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
                 </Style>
             </Grid.Resources>
             <Label Grid.Row="0" Grid.Column="0" Content="Номер" 

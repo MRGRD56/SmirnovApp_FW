@@ -57,7 +57,11 @@ namespace SmirnovApp.ViewModels.PagesViewModels
                 {
                     _syncContext.Send(_ => Items.Add(x), null);
                 });
+
+                ItemsLoaded?.Invoke(this, new EventArgs());
             }
         }
+
+        public event EventHandler ItemsLoaded;
     }
 }
