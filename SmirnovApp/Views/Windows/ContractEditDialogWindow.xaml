@@ -75,9 +75,6 @@
             <DatePicker Grid.Row="3" Grid.Column="1" 
                         SelectedDate="{Binding Contract.Date}"/>
             <Label Grid.Row="4" Grid.Column="0" Content="Статус"/>
-            <!--<ComboBox Grid.Row="4" Grid.Column="1" 
-                      SelectedItem="{Binding Contract.Status}"
-                      ItemsSource="{Binding Statuses}"/>-->
             <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Statuses}"
                       SelectedItem="{Binding Contract.Status}">
                 <ComboBox.ItemTemplate>

@@ -113,30 +113,65 @@ namespace SmirnovApp.ViewModels.PagesViewModels
                 {
                     _syncContext.Send(_ =>
                     {
-                        Clients.Add(client);
-                        if (client is IndividualClient individualClient)
-                        {
-                            IndividualClients.Add(individualClient);
-                        }
-                        if (client is LegalEntityClient legalEntityClient)
-                        {
-                            LegalEntityClients.Add(legalEntityClient);
-                        }
+                        AddClientToCollection(client);
                     }, null);
                 });
             }
         }
 
-        public Command AddCommand => new Command(_ =>
+        private void AddClientToCollection(Client client)
+        {
+            Clients.Add(client);
+            if (client is IndividualClient individualClient)
+            {
+                IndividualClients.Add(individualClient);
+            }
+            if (client is LegalEntityClient legalEntityClient)
+            {
+                LegalEntityClients.Add(legalEntityClient);
+            }
+        }
+
+        private void RemoveClientFromCollection(Client client)
+        {
+            Clients.Remove(client);
+            if (client is IndividualClient individualClient)
+            {
+                IndividualClients.Remove(individualClient);
+            }
+            if (client is LegalEntityClient legalEntityClient)
+            {
+                LegalEntityClients.Remove(legalEntityClient);
+            }
+        }
+
+        public Command AddCommand => new Command(async _ =>
         {
             var dialogWindow = new ClientEditDialogWindow(CurrentTabClientType);
-            dialogWindow.ShowDialog();
+            var dialogResult = dialogWindow.ShowDialog();
+            if (dialogResult != true) return;
+            var client = dialogWindow.Client;
+            using (var db = new AppDbContext())
+            {
+                await db.Clients.AddAsync(client);
+                await db.SaveChangesAsync();
+                AddClientToCollection(client);
+            }
         });
 
-        public Command EditCommand => new Command(_ =>
+        public Command EditCommand => new Command(async _ =>
         {
             var dialogWindow = new ClientEditDialogWindow(SelectedClient);
-            dialogWindow.ShowDialog();
+            var dialogResult = dialogWindow.ShowDialog();
+            if (dialogResult != true) return;
+            var client = dialogWindow.Client;
+            using (var db = new AppDbContext())
+            {
+                var dbClient = await db.Clients.FindAsync(client.Id);
+                dbClient.CopyPropertiesFrom(client);
+                await db.SaveChangesAsync();
+                SelectedClient.CopyPropertiesFrom(dbClient);
+            }
         }, _ => SelectedClient != null);
 
         public Command RemoveCommand => new Command(async _ =>
@@ -148,7 +183,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             {
                 var dbClint = await db.Clients.FindAsync(SelectedClient.Id);
                 db.Remove(dbClint);
-                Clients.Remove(SelectedClient);
+                RemoveClientFromCollection(SelectedClient);
                 await db.SaveChangesAsync();
             }
         }, _ => SelectedClient != null);

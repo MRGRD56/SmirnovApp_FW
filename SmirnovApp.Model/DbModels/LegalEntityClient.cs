@@ -12,74 +12,85 @@ namespace SmirnovApp.Model.DbModels
     /// </summary>
     public class LegalEntityClient : Client
     {
-        #region СКРЫТИЕ ЧЛЕНОВ РОДИТЕЛЬСКОГО КЛАССА Person
+        private string _name;
+        //#region СКРЫТИЕ ЧЛЕНОВ РОДИТЕЛЬСКОГО КЛАССА Person
 
-        private new string FirstName
-        {
-            get => base.FirstName;
-            set => base.FirstName = value;
-        }
+        //private new string FirstName
+        //{
+        //    get => base.FirstName;
+        //    set => base.FirstName = value;
+        //}
 
-        private new string LastName
-        {
-            get => base.LastName;
-            set => base.LastName = value;
-        }
+        //private new string LastName
+        //{
+        //    get => base.LastName;
+        //    set => base.LastName = value;
+        //}
 
-        private new string Patronymic
-        {
-            get => base.Patronymic;
-            set => base.Patronymic = value;
-        }
+        //private new string Patronymic
+        //{
+        //    get => base.Patronymic;
+        //    set => base.Patronymic = value;
+        //}
 
-        private new DateTime BirthDate
-        {
-            get => base.BirthDate;
-            set => base.BirthDate = value;
-        }
+        //private new DateTime BirthDate
+        //{
+        //    get => base.BirthDate;
+        //    set => base.BirthDate = value;
+        //}
 
-        private new string LivingAddress
-        {
-            get => base.LivingAddress;
-            set => base.LivingAddress = value;
-        }
+        //private new string LivingAddress
+        //{
+        //    get => base.LivingAddress;
+        //    set => base.LivingAddress = value;
+        //}
 
-        private new DateTime PassportIssueDate
-        {
-            get => base.PassportIssueDate;
-            set => base.PassportIssueDate = value;
-        }
+        //private new DateTime PassportIssueDate
+        //{
+        //    get => base.PassportIssueDate;
+        //    set => base.PassportIssueDate = value;
+        //}
 
-        private new string PassportIssuedBy
-        {
-            get => base.PassportIssuedBy;
-            set => base.PassportIssuedBy = value;
-        }
+        //private new string PassportIssuedBy
+        //{
+        //    get => base.PassportIssuedBy;
+        //    set => base.PassportIssuedBy = value;
+        //}
 
-        private new string PassportNumber
-        {
-            get => base.PassportNumber;
-            set => base.PassportNumber = value;
-        }
+        //private new string PassportNumber
+        //{
+        //    get => base.PassportNumber;
+        //    set => base.PassportNumber = value;
+        //}
 
-        private new string PassportSeries
-        {
-            get => base.PassportSeries;
-            set => base.PassportSeries = value;
-        }
+        //private new string PassportSeries
+        //{
+        //    get => base.PassportSeries;
+        //    set => base.PassportSeries = value;
+        //}
 
-        private new string RegistrationAddress
-        {
-            get => base.RegistrationAddress;
-            set => base.RegistrationAddress = value;
-        }
+        //private new string RegistrationAddress
+        //{
+        //    get => base.RegistrationAddress;
+        //    set => base.RegistrationAddress = value;
+        //}
 
-        #endregion
+        //#endregion
 
         /// <summary>
         /// Название юридического лица.
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FullName));
+            }
+        }
 
         public override string FullName => Name;
 
@@ -105,6 +116,7 @@ namespace SmirnovApp.Model.DbModels
         {
             return new LegalEntityClient
             {
+                Id = Id,
                 LastName = LastName,
                 FirstName = FirstName,
                 Patronymic = Patronymic,
@@ -118,6 +130,26 @@ namespace SmirnovApp.Model.DbModels
                 ApplicationDate = ApplicationDate,
                 Name = Name
             };
+        }
+
+        public override void CopyPropertiesFrom(Client anotherClient)
+        {
+            LastName = anotherClient.LastName;
+            FirstName = anotherClient.FirstName;
+            Patronymic = anotherClient.Patronymic;
+            BirthDate = anotherClient.BirthDate;
+            PassportSeries = anotherClient.PassportSeries;
+            PassportNumber = anotherClient.PassportNumber;
+            PassportIssuedBy = anotherClient.PassportIssuedBy;
+            PassportIssueDate = anotherClient.PassportIssueDate;
+            LivingAddress = anotherClient.LivingAddress;
+            RegistrationAddress = anotherClient.RegistrationAddress;
+            ApplicationDate = anotherClient.ApplicationDate;
+
+            if (anotherClient is LegalEntityClient legalEntityClient)
+            {
+                Name = legalEntityClient.Name;
+            }
         }
     }
 }

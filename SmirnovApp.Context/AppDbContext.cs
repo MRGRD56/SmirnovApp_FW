@@ -4,15 +4,40 @@ using SmirnovApp.Model.DbModels;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SmirnovApp.Context
 {
     public class AppDbContext : DbContext
     {
+        private static string GetConnectionString()
+        {
+            const string defaultConnectionString =
+                @"Server=localhost\SQLEXPRESS;Database=SmirnovAppFw;Trusted_connection=True;";
+
+            string connectionString;
+
+            try
+            {
+                connectionString = File.ReadAllText("_connection.txt");
+
+                if (string.IsNullOrWhiteSpace(connectionString))
+                {
+                    connectionString = defaultConnectionString;
+                }
+            }
+            catch
+            {
+                connectionString = defaultConnectionString;
+            }
+
+            return connectionString;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Server=localhost\SQLEXPRESS;Database=SmirnovAppFw;Trusted_connection=True;");
+            optionsBuilder.UseSqlServer(GetConnectionString());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -87,7 +112,6 @@ namespace SmirnovApp.Context
         /// Пользователи приложения.
         /// </summary>
         public DbSet<User> Users { get; set; }
-
 
         public List<Contract> GetAvailableContracts(User user) =>
             Contracts.Where(x => x.Service.ServiceCategory == user.ServicesDirection).ToList();

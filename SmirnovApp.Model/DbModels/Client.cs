@@ -10,8 +10,25 @@ namespace SmirnovApp.Model.DbModels
     /// </summary>
     public abstract class Client : Person, ICloneable
     {
-        public DateTime ApplicationDate { get; set; }
+        private DateTime _applicationDate = DateTime.Now;
+
+        public DateTime ApplicationDate
+        {
+            get => _applicationDate;
+            set
+            {
+                if (value.Equals(_applicationDate)) return;
+                _applicationDate = value;
+                OnPropertyChanged();
+            }
+        }
 
         public abstract object Clone();
+
+        /// <summary>
+        /// Копирует значения свойств из другого объекта Client.
+        /// </summary>
+        /// <param name="anotherClient">Клиент, из которого будут скопированы значения свойств.</param>
+        public abstract void CopyPropertiesFrom(Client anotherClient);
     }
 }

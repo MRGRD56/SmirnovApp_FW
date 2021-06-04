@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:SmirnovApp.Views.Windows"
         mc:Ignorable="d" Style="{StaticResource RootStyle}"
         WindowStartupLocation="CenterScreen"
-        Height="500" Width="400">
-    <Grid>
+        Height="580" Width="450"
+        MinHeight="580" MinWidth="450"
+        Title="{Binding WindowTitle}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+    </Window.Resources>
+    <Grid Margin="5 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -17,17 +22,103 @@
                    Margin="10"
                    Text="{Binding WindowTitle}"
                    Style="{StaticResource Heading4}"/>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="Label" BasedOn="{StaticResource FormLabel}">
+                    <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                    <Setter Property="Margin" Value="0 0 5 0"/>
+                </Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource PrimaryTextBox}">
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+                <Style TargetType="DatePicker">
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+            </Grid.Resources>
+            <Label Grid.Row="0" Grid.Column="0" Content="Номер" 
+                   Visibility="{Binding IsEdit, Converter={StaticResource VisibilityConverter}}"/>
+            <TextBox Grid.Row="0" Grid.Column="1" 
+                     Text="{Binding Client.Id}" IsReadOnly="True"
+                     Visibility="{Binding IsEdit, Converter={StaticResource VisibilityConverter}}"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Название" 
+                   Visibility="{Binding IsLegalEntityClient, Converter={StaticResource VisibilityConverter}}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" 
+                     Text="{Binding LegalEntityName}"
+                     Visibility="{Binding IsLegalEntityClient, Converter={StaticResource VisibilityConverter}}"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Директор юрид. лица" Style="{StaticResource Heading6}"
+                       Visibility="{Binding IsLegalEntityClient, Converter={StaticResource VisibilityConverter}}"
+                       FontWeight="SemiBold" Margin="10 5" TextAlignment="Center"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Фамилия"/>
+            <TextBox Grid.Row="3" Grid.Column="1" 
+                     Text="{Binding Client.LastName}"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="Имя"/>
+            <TextBox Grid.Row="4" Grid.Column="1" 
+                        Text="{Binding Client.FirstName}"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="Отчество"/>
+            <TextBox Grid.Row="5" Grid.Column="1" 
+                     Text="{Binding Client.Patronymic}"/>
+            <Label Grid.Row="6" Grid.Column="0" Content="Дата рождения"/>
+            <DatePicker Grid.Row="6" Grid.Column="1" 
+                        SelectedDate="{Binding Client.BirthDate}"/>
+            <Label Grid.Row="7" Grid.Column="0" Content="Паспорт"/>
+            <Grid Grid.Row="7" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="{Binding Client.PassportSeries}" ToolTip="Серия паспорта"/>
+                <TextBox Grid.Column="1" Text="{Binding Client.PassportNumber}" ToolTip="Номер паспорта"/>
+            </Grid>
+            <Label Grid.Row="8" Grid.Column="0" Content="Выдан"/>
+            <TextBox Grid.Row="8" Grid.Column="1" ToolTip="Кем выдан паспорт"
+                     Text="{Binding Client.PassportIssuedBy}"/>
+            <Label Grid.Row="9" Grid.Column="0" Content="Дата выдачи"/>
+            <DatePicker Grid.Row="9" Grid.Column="1" ToolTip="Дата выдачи паспорта"
+                        SelectedDate="{Binding Client.PassportIssueDate}"/>
+            <Label Grid.Row="10" Grid.Column="0" Content="Адрес регистрации"/>
+            <TextBox Grid.Row="10" Grid.Column="1"
+                     Text="{Binding Client.RegistrationAddress}"/>
+            <Label Grid.Row="11" Grid.Column="0" Content="Адрес проживания"/>
+            <TextBox Grid.Row="11" Grid.Column="1"
+                     Text="{Binding Client.LivingAddress}"/>
+            <Label Grid.Row="12" Grid.Column="0" Content="Дата обращения"/>
+            <DatePicker Grid.Row="12" Grid.Column="1"
+                        SelectedDate="{Binding Client.ApplicationDate}"/>
+        </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
                     Margin="0 20">
             <Button Content="ОК" Margin="0 0 10 0"
                     Style="{StaticResource PrimaryButton}" 
                     Width="90"
                     Command="{Binding OkCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ContractEditDialogWindow}}"/>
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ClientEditDialogWindow}}"/>
             <Button Content="Отмена" Style="{StaticResource SecondaryButton}"
                     Width="90"
                     Command="{Binding CancelCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ContractEditDialogWindow}}"/>
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ClientEditDialogWindow}}"/>
         </StackPanel>
     </Grid>
 </Window>
