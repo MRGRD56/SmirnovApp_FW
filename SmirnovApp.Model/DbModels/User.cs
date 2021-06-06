@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SmirnovApp.Model.DbModels
@@ -7,6 +8,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Пользователь системы.
     /// </summary>
+    [Table("Users")]
     public class User
     {
         public int Id { get; set; }

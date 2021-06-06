@@ -10,6 +10,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Договор.
     /// </summary>
+    [Table("Contracts")]
     public class Contract : NotifyPropertyChanged, ICloneable, ICategoryble
     {
         private string _name;

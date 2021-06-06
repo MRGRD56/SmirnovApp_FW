@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Клиент-физическое лицо.
     /// </summary>
+    [Table("IndividualClients")]
     public class IndividualClient : Client
     {
         public override object Clone()

@@ -42,6 +42,15 @@ namespace SmirnovApp.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            ////modelBuilder.Entity<Person>().ToTable("Persons");
+            //modelBuilder.Entity<Owner>().ToTable("Owners");
+            //modelBuilder.Entity<Employee>().ToTable("Employees");
+            ////modelBuilder.Entity<Client>().ToTable("Clients");
+            //modelBuilder.Entity<IndividualClient>().ToTable("IndividualClients");
+            //modelBuilder.Entity<LegalEntityClient>().ToTable("LegalEntityClients");
+
             modelBuilder.Entity<Contract>()
                 .HasOne(e => e.Client)
                 .WithMany()

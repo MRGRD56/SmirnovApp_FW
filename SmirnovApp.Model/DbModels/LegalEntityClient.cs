@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -10,6 +11,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Клиент-юридическое лицо.
     /// </summary>
+    [Table("LegalEntityClients")]
     public class LegalEntityClient : Client
     {
         private string _name;

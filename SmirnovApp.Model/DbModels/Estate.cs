@@ -8,6 +8,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Имущество.
     /// </summary>
+    [Table("Estates")]
     public class Estate
     {
         public int Id { get; set; }

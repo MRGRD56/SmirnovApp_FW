@@ -145,6 +145,9 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             }
         }
 
+        /// <summary>
+        /// Команда добавления клиента.
+        /// </summary>
         public Command AddCommand => new Command(async _ =>
         {
             var dialogWindow = new ClientEditDialogWindow(CurrentTabClientType);

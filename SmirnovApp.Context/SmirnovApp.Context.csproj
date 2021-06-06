@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SmirnovApp.Context</RootNamespace>
     <AssemblyName>SmirnovApp.Context</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -163,6 +164,10 @@
     <Compile Include="Migrations\20210529114633_InitialMigration.cs" />
     <Compile Include="Migrations\20210529114633_InitialMigration.designer.cs">
       <DependentUpon>20210529114633_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210605151440_July05Migration.cs" />
+    <Compile Include="Migrations\20210605151440_July05Migration.designer.cs">
+      <DependentUpon>20210605151440_July05Migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
