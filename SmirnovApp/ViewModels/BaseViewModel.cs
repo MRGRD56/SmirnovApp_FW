@@ -10,24 +10,39 @@ using SmirnovApp.Model;
 
 namespace SmirnovApp.ViewModels
 {
+    /// <summary>
+    /// Представляет базовую ViewModel.
+    /// </summary>
     public class BaseViewModel : NotifyPropertyChanged
     {
-        public Command NavigateCommand => new Command(o =>
+        /// <summary>
+        /// Команда навигации к новому экземпляру типа, передаваемого в качестве параметра.
+        /// </summary>
+        public Command NavigateCommand => new Command(parameter =>
         {
-            var type = (Type)o;
+            var type = (Type)parameter;
             Navigation.Navigate(type);
         });
 
+        /// <summary>
+        /// Команда перехода назад.
+        /// </summary>
         public Command GoBackCommand => new Command(_ =>
         {
             Navigation.GoBack();
         }, _ => Navigation.CanGoBack);
 
+        /// <summary>
+        /// Определяет возможность перехода назад.
+        /// </summary>
         public bool CanGoBack => Navigation.CanGoBack;
 
-        public Command ShowDialogWindowCommand => new Command(o =>
+        /// <summary>
+        /// Команда открытия нового окна типа как диалогового. Тип окна задаётся параметром.
+        /// </summary>
+        public Command ShowDialogWindowCommand => new Command(parameter =>
         {
-            var type = (Type)o;
+            var type = (Type)parameter;
             var window = (Window)Activator.CreateInstance(type);
             window?.ShowDialog();
         });

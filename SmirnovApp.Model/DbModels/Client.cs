@@ -8,7 +8,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Клиент.
     /// </summary>
-    public abstract class Client : Person, ICloneable
+    public abstract class Client : Person, ICloneable, ICopyable<Client>
     {
         private DateTime _applicationDate = DateTime.Now;
 
@@ -28,7 +28,7 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Копирует значения свойств из другого объекта Client.
         /// </summary>
-        /// <param name="anotherClient">Клиент, из которого будут скопированы значения свойств.</param>
-        public abstract void CopyPropertiesFrom(Client anotherClient);
+        /// <param name="source">Клиент, из которого будут скопированы значения свойств.</param>
+        public abstract void CopyPropertiesFrom(Client source);
     }
 }

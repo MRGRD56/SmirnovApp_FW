@@ -58,13 +58,13 @@ namespace SmirnovApp.Extensions
 
             //Метод DbContext.Set<T>();
             var setMethod = dbType.GetMethod("Set", new Type[0])
-                            ?? throw new Exception("DbContextExtensions.LoadEntitiesAsync: setMethod is null");
+                            ?? throw new NullReferenceException("DbContextExtensions.LoadEntitiesAsync: setMethod is null");
 
             var entityFrameworkQueryableExtensionsType = typeof(EntityFrameworkQueryableExtensions);
 
             //Метод static async EntityFrameworkQueryableExtensions.LoadAsync<TSource>(this IQueryable<TSource> source, CancellationToken cancellationToken = default);
             var loadAsyncMethod = entityFrameworkQueryableExtensionsType.GetMethod("LoadAsync")
-                                  ?? throw new Exception("DbContextExtensions.LoadEntitiesAsync: loadAsyncMethod is null");
+                                  ?? throw new NullReferenceException("DbContextExtensions.LoadEntitiesAsync: loadAsyncMethod is null");
 
             foreach (var type in typesToLoad)
             {
@@ -76,19 +76,17 @@ namespace SmirnovApp.Extensions
 
                 //DbSet<[type]>, коллекция, которая будет загружена.
                 var itemsToLoad = setGenericMethod.Invoke(db, null)
-                                  ?? throw new Exception("DbContextExtensions.LoadEntitiesAsync: itemsToLoad is null");
+                                  ?? throw new NullReferenceException("DbContextExtensions.LoadEntitiesAsync: itemsToLoad is null");
 
                 //Метод EntityFrameworkQueryableExtensions.LoadAsync<[type]>(...)
                 var loadAsyncGenericMethod = loadAsyncMethod.MakeGenericMethod(type);
 
                 //Выполняем метод LoadAsync и получаем Task.
                 var loadAsyncMethodTask = (Task)loadAsyncGenericMethod.Invoke(null, new[] { itemsToLoad, default(CancellationToken) })
-                                          ?? throw new Exception("DbContextExtensions.LoadEntitiesAsync: loadAsyncMethod is null");
+                                          ?? throw new NullReferenceException("DbContextExtensions.LoadEntitiesAsync: loadAsyncMethod is null");
 
+                //Ожидаем полученный из LoadAsync() Task.
                 await loadAsyncMethodTask.ConfigureAwait(false);
-
-                //Получаем результат Task, в данном случае, void.
-                loadAsyncMethodTask.GetAwaiter().GetResult();
             }
         }
     }

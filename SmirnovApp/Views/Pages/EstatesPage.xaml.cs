@@ -9,7 +9,6 @@ namespace SmirnovApp.Views.Pages
         public EstatesPage()
         {
             InitializeComponent();
-            DataContext = new ItemsListViewModel<Estate>(typeof(Owner));
         }
     }
 }

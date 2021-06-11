@@ -4,33 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using SmirnovApp.Common;
 using SmirnovApp.Model.DbModels;
 using SmirnovApp.Views.Windows;
 
 namespace SmirnovApp.ViewModels.WindowsViewModels
 {
-    public class ClientEditDialogWindowViewModel : BaseViewModel
+    public sealed class ClientEditDialogWindowViewModel : BaseEditDialogViewModel<Client>
     {
         public Type ClientType { get; }
 
-        public Client Client { get; }
-
-        public bool IsEdit { get; }
-
         public string LegalEntityName { get; set; }
 
-        public bool IsIndividualClient => Client is IndividualClient;
-        public bool IsLegalEntityClient => Client is LegalEntityClient;
+        public bool IsIndividualClient => Item is IndividualClient;
+        public bool IsLegalEntityClient => Item is LegalEntityClient;
 
-        public string WindowTitle => (IsEdit ? "Редактирование" : "Добавление") + 
+        public override string WindowTitle => (IsEdit ? "Редактирование" : "Добавление") + 
                                      (IsIndividualClient ? " физического" : " юридического") + " лица";
 
         public ClientEditDialogWindowViewModel(Type newClientType)
         {
             ClientType = newClientType;
             ValidateClientType(ClientType);
-            Client = (Client)Activator.CreateInstance(newClientType);
+            Item = (Client)Activator.CreateInstance(newClientType);
             IsEdit = false;
         }
         
@@ -38,7 +35,7 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
         {
             ClientType = clientToEdit.GetType();
             ValidateClientType(ClientType);
-            Client = (Client)clientToEdit.Clone();
+            Item = (Client)clientToEdit.Clone();
             IsEdit = true;
 
             if (clientToEdit is LegalEntityClient legalEntityClient)
@@ -65,51 +62,51 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
         {
             errors = new List<string>();
 
-            if (Client is LegalEntityClient legalEntityClient && string.IsNullOrWhiteSpace(legalEntityClient.Name))
+            if (Item is LegalEntityClient legalEntityClient && string.IsNullOrWhiteSpace(legalEntityClient.Name))
             {
                 errors.Add("Название юрид. лица");
             }
-            if (string.IsNullOrWhiteSpace(Client.LastName))
+            if (string.IsNullOrWhiteSpace(Item.LastName))
             {
                 errors.Add("Фамилия");
             }
-            if (string.IsNullOrWhiteSpace(Client.FirstName))
+            if (string.IsNullOrWhiteSpace(Item.FirstName))
             {
                 errors.Add("Имя");
             }
-            if (string.IsNullOrWhiteSpace(Client.Patronymic))
+            if (string.IsNullOrWhiteSpace(Item.Patronymic))
             {
                 errors.Add("Отчество");
             }
-            if (Client.BirthDate == default)
+            if (Item.BirthDate == default)
             {
                 errors.Add("Дата рождения");
             }
-            if (string.IsNullOrWhiteSpace(Client.PassportSeries))
+            if (string.IsNullOrWhiteSpace(Item.PassportSeries))
             {
                 errors.Add("Серия паспорта");
             }
-            if (string.IsNullOrWhiteSpace(Client.PassportNumber))
+            if (string.IsNullOrWhiteSpace(Item.PassportNumber))
             {
                 errors.Add("Номер паспорта");
             }
-            if (string.IsNullOrWhiteSpace(Client.PassportIssuedBy))
+            if (string.IsNullOrWhiteSpace(Item.PassportIssuedBy))
             {
                 errors.Add("Кем выдан паспорт");
             }
-            if (Client.PassportIssueDate == default)
+            if (Item.PassportIssueDate == default)
             {
                 errors.Add("Дата выдачи паспорта");
             }
-            if (string.IsNullOrWhiteSpace(Client.RegistrationAddress))
+            if (string.IsNullOrWhiteSpace(Item.RegistrationAddress))
             {
                 errors.Add("Адрес регистрации");
             }
-            if (string.IsNullOrWhiteSpace(Client.LivingAddress))
+            if (string.IsNullOrWhiteSpace(Item.LivingAddress))
             {
                 errors.Add("Адрес проживания");
             }
-            if (Client.ApplicationDate == default)
+            if (Item.ApplicationDate == default)
             {
                 errors.Add("Адрес обращения");
             }
@@ -127,27 +124,14 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
             return false;
         }
 
-        public Command OkCommand => new Command(parameter =>
+        protected override bool OkBeforeClose(Window window)
         {
-            var window = (ClientEditDialogWindow) parameter;
-            
-            if (Client is LegalEntityClient legalEntityClient)
+            if (Item is LegalEntityClient legalEntityClient)
             {
                 legalEntityClient.Name = LegalEntityName;
             }
 
-            if (!Validate()) return;
-
-            window.DialogResult = true;
-            window.Close();
-        });
-
-        public Command CancelCommand => new Command(parameter =>
-        {
-            var window = (ClientEditDialogWindow)parameter;
-
-            window.DialogResult = false;
-            window.Close();
-        });
+            return Validate();
+        }
     }
 }

@@ -4,13 +4,38 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SmirnovApp.Views.Pages"
+      xmlns:pagesViewModels="clr-namespace:SmirnovApp.ViewModels.PagesViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Style="{StaticResource RootStyle}"
       Title="Владельцы">
-
+    <Page.DataContext>
+        <pagesViewModels:OwnersPageViewModel/>
+    </Page.DataContext>
     <Grid>
-        <DataGrid ItemsSource="{Binding Items}" Style="{StaticResource ReadonlyDataGrid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="5">
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                        <Setter Property="Margin" Value="0 0 3 0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button ToolTip="Добавить" Command="{Binding AddCommand}">
+                    <Image Source="/Resources/Icons/baseline_add_black_24dp.png" />
+                </Button>
+                <Button ToolTip="Редактировать выбранный" Command="{Binding EditCommand}">
+                    <Image Source="/Resources/Icons/baseline_edit_black_24dp.png" />
+                </Button>
+                <Button ToolTip="Удалить выбранный" Command="{Binding RemoveCommand}">
+                    <Image Source="/Resources/Icons/baseline_delete_black_24dp.png" />
+                </Button>
+            </StackPanel>
+        </Grid>
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" Style="{StaticResource ReadonlyDataGrid}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>

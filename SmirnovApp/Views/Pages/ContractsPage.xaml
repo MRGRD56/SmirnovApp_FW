@@ -13,10 +13,6 @@
     <Page.DataContext>
         <pagesViewModels:ContractsPageViewModel/>
     </Page.DataContext>
-    <Page.Resources>
-        <converters:ContractStatusConverter x:Key="ContractStatusConverter"/>
-        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
-    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -181,7 +177,7 @@
         <Grid Grid.Row="1">
             <DataGrid Style="{StaticResource ReadonlyDataGrid}" 
                       ItemsSource="{Binding ContractsView}"
-                      SelectedItem="{Binding SelectedContract}">
+                      SelectedItem="{Binding SelectedItem}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding Id}"/>
                     <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>

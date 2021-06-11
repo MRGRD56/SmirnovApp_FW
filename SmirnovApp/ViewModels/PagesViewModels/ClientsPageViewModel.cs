@@ -9,12 +9,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using SmirnovApp.Common;
 using SmirnovApp.Views.Windows;
 
 namespace SmirnovApp.ViewModels.PagesViewModels
 {
-    public class ClientsPageViewModel : BaseViewModel
+    public class ClientsPageViewModel : BaseViewModel, ICrudViewModel
     {
         public ObservableCollection<IndividualClient> IndividualClients { get; } = 
             new ObservableCollection<IndividualClient>();
@@ -148,12 +149,12 @@ namespace SmirnovApp.ViewModels.PagesViewModels
         /// <summary>
         /// Команда добавления клиента.
         /// </summary>
-        public Command AddCommand => new Command(async _ =>
+        public ICommand AddCommand => new Command(async _ =>
         {
             var dialogWindow = new ClientEditDialogWindow(CurrentTabClientType);
             var dialogResult = dialogWindow.ShowDialog();
             if (dialogResult != true) return;
-            var client = dialogWindow.Client;
+            var client = dialogWindow.Item;
             using (var db = new AppDbContext())
             {
                 await db.Clients.AddAsync(client);
@@ -162,12 +163,12 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             }
         });
 
-        public Command EditCommand => new Command(async _ =>
+        public ICommand EditCommand => new Command(async _ =>
         {
             var dialogWindow = new ClientEditDialogWindow(SelectedClient);
             var dialogResult = dialogWindow.ShowDialog();
             if (dialogResult != true) return;
-            var client = dialogWindow.Client;
+            var client = dialogWindow.Item;
             using (var db = new AppDbContext())
             {
                 var dbClient = await db.Clients.FindAsync(client.Id);
@@ -177,9 +178,10 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             }
         }, _ => SelectedClient != null);
 
-        public Command RemoveCommand => new Command(async _ =>
+        public ICommand RemoveCommand => new Command(async _ =>
         {
-            var mbox = MessageBox.Show($"Удалить клиента №{SelectedClient.Id}?", "Удаление", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            var mbox = MessageBox.Show($"Удалить клиента №{SelectedClient.Id}?", 
+                "Удаление", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (mbox != MessageBoxResult.OK) return;
 
             using (var db = new AppDbContext())

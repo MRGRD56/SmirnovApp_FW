@@ -25,7 +25,6 @@ namespace SmirnovApp.Views.Pages
         public OwnersPage()
         {
             InitializeComponent();
-            DataContext = new ItemsListViewModel<Owner>();
         }
     }
 }

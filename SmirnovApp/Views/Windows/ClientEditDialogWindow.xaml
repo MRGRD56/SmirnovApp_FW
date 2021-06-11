@@ -9,9 +9,6 @@
         Height="580" Width="450"
         MinHeight="580" MinWidth="450"
         Title="{Binding WindowTitle}">
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
-    </Window.Resources>
     <Grid Margin="5 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

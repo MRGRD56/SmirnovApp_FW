@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="/Styles/TextBox.xaml"/>
                 <ResourceDictionary Source="/Styles/Other.xaml"/>
                 <ResourceDictionary Source="/Styles/All.xaml"/>
+                <ResourceDictionary Source="/Styles/Converters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

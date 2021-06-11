@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
 using SmirnovApp.Common;
 using SmirnovApp.Context;
@@ -13,15 +14,9 @@ using SmirnovApp.Views.Windows;
 
 namespace SmirnovApp.ViewModels.WindowsViewModels
 {
-    public class ContractEditDialogWindowViewModel : BaseViewModel
+    public sealed class ContractEditDialogWindowViewModel : BaseEditDialogViewModel<Contract>
     {
-        public Contract Contract { get; private set; }
-
-        public bool IsEdit { get; }
-
-        public string WindowTitle => IsEdit ? "Редактирование договора" : "Добавление договора";
-
-        public bool Result { get; private set; }
+        public override string WindowTitle => IsEdit ? "Редактирование договора" : "Добавление договора";
 
         public List<ContractStatus> Statuses { get; set; }
         public List<Client> Clients { get; set; }
@@ -56,49 +51,47 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
             
                 if (contract == null)
                 {
-                    Contract = new Contract();
+                    Item = new Contract();
                 }
                 else
                 {
-                    Contract = (Contract) contract?.Clone();
-                    Contract.Client = Clients.Single(x => x.Id == Contract.Client.Id);
-                    Contract.Employee = Employees.Single(x => x.Id == Contract.Employee.Id);
-                    Contract.Estate = Estates.Single(x => x.Id == Contract.Estate.Id);
-                    Contract.Service = Services.Single(x => x.Id == Contract.Service.Id);
+                    Item = (Contract) contract?.Clone();
+                    Item.Client = Clients.Single(x => x.Id == Item.Client.Id);
+                    Item.Employee = Employees.Single(x => x.Id == Item.Employee.Id);
+                    Item.Estate = Estates.Single(x => x.Id == Item.Estate.Id);
+                    Item.Service = Services.Single(x => x.Id == Item.Service.Id);
                 }
             }
         }
 
-        public Command OkCommand => new Command(o =>
+        protected override bool OkBeforeClose(Window window)
         {
-            var window = (ContractEditDialogWindow) o;
-
             var errors = new List<string>();
-            if (string.IsNullOrWhiteSpace(Contract.Name))
+            if (string.IsNullOrWhiteSpace(Item.Name))
             {
                 errors.Add("Название договора");
             }
-            if (Contract.Amount == default)
+            if (Item.Amount == default)
             {
                 errors.Add("Сумма");
             }
-            if (Contract.Date == default)
+            if (Item.Date == default)
             {
                 errors.Add("Дата договора");
             }
-            if (Contract.Client == null)
+            if (Item.Client == null)
             {
                 errors.Add("Клиент");
             }
-            if (Contract.Employee == null)
+            if (Item.Employee == null)
             {
                 errors.Add("Сотрудник");
             }
-            if (Contract.Estate == null)
+            if (Item.Estate == null)
             {
                 errors.Add("Имущество");
             }
-            if (Contract.Service == null)
+            if (Item.Service == null)
             {
                 errors.Add("Услуга");
             }
@@ -107,19 +100,10 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
             {
                 var errorsText = $"Следующие поля не заполнены:\n{string.Join(";\n", errors.Select(x => $"• {x}"))}.";
                 MessageBox.Show(errorsText, "Не все поля заполнены", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                return false;
             }
 
-            window.DialogResult = true;
-            window.Close();
-        });
-
-        public Command CancelCommand => new Command(o =>
-        {
-            var window = (ContractEditDialogWindow) o;
-
-            window.DialogResult = false;
-            window.Close();
-        });
+            return true;
+        }
     }
 }

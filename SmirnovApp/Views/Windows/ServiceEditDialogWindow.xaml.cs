@@ -17,24 +17,23 @@ using SmirnovApp.ViewModels.WindowsViewModels;
 namespace SmirnovApp.Views.Windows
 {
     /// <summary>
-    /// Interaction logic for ContractEditDialogWindow.xaml
+    /// Interaction logic for ServiceEditDialogWindow.xaml
     /// </summary>
-    public partial class ContractEditDialogWindow : Window
+    public partial class ServiceEditDialogWindow : Window, IBaseEditDialogWindow<Service, ServiceEditDialogWindowViewModel>
     {
-        private ContractEditDialogWindowViewModel ViewModel => (ContractEditDialogWindowViewModel)DataContext;
-
-        public Contract Contract => ViewModel.Item;
-
-        public ContractEditDialogWindow()
+        public ServiceEditDialogWindow()
         {
             InitializeComponent();
-            DataContext = new ContractEditDialogWindowViewModel();
+            DataContext = new ServiceEditDialogWindowViewModel();
         }
 
-        public ContractEditDialogWindow(Contract contract)
+        public ServiceEditDialogWindow(Service serviceToEdit)
         {
             InitializeComponent();
-            DataContext = new ContractEditDialogWindowViewModel(contract);
+            DataContext = new ServiceEditDialogWindowViewModel(serviceToEdit);
         }
+
+        public ServiceEditDialogWindowViewModel ViewModel => (ServiceEditDialogWindowViewModel) DataContext;
+        public Service Item => ViewModel.Item;
     }
 }

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 using Microsoft.Win32;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.XWPF.UserModel;
@@ -23,7 +24,7 @@ using SmirnovApp.Views.Windows;
 
 namespace SmirnovApp.ViewModels.PagesViewModels
 {
-    public class ContractsPageViewModel : ItemsListViewModel<Contract>
+    public class ContractsPageViewModel : ItemsListViewModel<Contract>, ICrudViewModel
     {
         private string _contractNameSearchQuery = "";
         private string _employeeSearchQuery = "";
@@ -153,8 +154,6 @@ namespace SmirnovApp.ViewModels.PagesViewModels
 
         public ICollectionView ContractsView { get; }
 
-        public Contract SelectedContract { get; set; }
-
         public bool IsSearchExpanded
         {
             get => _isSearchExpanded;
@@ -216,12 +215,12 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             } 
         }
 
-        public Command ToggleExpandSearchCommand => new Command(_ =>
+        public ICommand ToggleExpandSearchCommand => new Command(_ =>
         {
             IsSearchExpanded = !IsSearchExpanded;
         });
 
-        public Command AddCommand => new Command(async _ =>
+        public ICommand AddCommand => new Command(async _ =>
         {
             var dialogWindow = new ContractEditDialogWindow();
             if (dialogWindow.ShowDialog() != true) return;
@@ -238,9 +237,9 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             }
         });
 
-        public Command EditCommand => new Command(async _ =>
+        public ICommand EditCommand => new Command(async _ =>
         {
-            var dialogWindow = new ContractEditDialogWindow(SelectedContract);
+            var dialogWindow = new ContractEditDialogWindow(SelectedItem);
             if (dialogWindow.ShowDialog() != true) return;
 
             var contract = dialogWindow.Contract;
@@ -248,44 +247,44 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             {
                 var dbContract = await db.Contracts.FindAsync(contract.Id);
                 await dbContract.CopyPropertiesAsync(contract, db);
-                await SelectedContract.CopyPropertiesAsync(dbContract, db);
+                await SelectedItem.CopyPropertiesAsync(dbContract, db);
                 await db.SaveChangesAsync();
                 UpdateStatistics();
             }
-        }, _ => SelectedContract != null);
-
-        public Command RemoveCommand => new Command(async _ =>
+        }, _ => SelectedItem != null);
+        
+        public ICommand RemoveCommand => new Command(async _ =>
         {
-            var mbox = MessageBox.Show($"Удалить договор №{SelectedContract.Id}?", "Удаление", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            var mbox = MessageBox.Show($"Удалить договор №{SelectedItem.Id}?", "Удаление", MessageBoxButton.OKCancel, MessageBoxImage.Question);
             if (mbox != MessageBoxResult.OK) return;
 
             using (var db = new AppDbContext())
             {
-                var dbContract = await db.Contracts.FindAsync(SelectedContract.Id);
+                var dbContract = await db.Contracts.FindAsync(SelectedItem.Id);
                 db.Remove(dbContract);
-                Items.Remove(SelectedContract);
+                Items.Remove(SelectedItem);
                 await db.SaveChangesAsync();
                 UpdateStatistics();
             }
-        }, _ => SelectedContract != null);
+        }, _ => SelectedItem != null);
 
         /// <summary>
         /// Создание документа по выбранному договору.
         /// </summary>
-        public Command CreateDocumentCommand => new Command(_ =>
+        public ICommand CreateDocumentCommand => new Command(_ =>
         {
-            var fileName = $"{SelectedContract.Name.Replace(" ", "_")}_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.docx";
+            var fileName = $"{SelectedItem.Name.Replace(" ", "_")}_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.docx";
 
             fileName = GetPathToSaveFile("*.docx|*.docx", fileName);
             if (fileName == null) return;
 
             SaveContractDocumentToDocx(fileName);
-        }, _ => SelectedContract != null);
+        }, _ => SelectedItem != null);
 
         /// <summary>
         /// Экспорт таблицы всех договоров в DOCX.
         /// </summary>
-        public Command ExportAllCommand => new Command(_ =>
+        public ICommand ExportAllCommand => new Command(_ =>
         {
             var fileName = $"Договоры_{DateTime.Now:yyyy-MM-ddTHH-mm-ss}.docx";
 
@@ -295,7 +294,7 @@ namespace SmirnovApp.ViewModels.PagesViewModels
             SaveContractsTableToDocx(fileName);
         });
 
-        public Command ResetFilterCommand => new Command(_ =>
+        public ICommand ResetFilterCommand => new Command(_ =>
         {
             ContractNameSearchQuery = "";
             EmployeeSearchQuery = "";
@@ -428,33 +427,33 @@ namespace SmirnovApp.ViewModels.PagesViewModels
                 var replaces = new List<(string From, string To)>
                 {
                     ("CurrentDateYear", DateTime.Now.Year.ToString()),
-                    ("OwnerFullName", SelectedContract.Estate.Owner.FullName),
-                    ("OwnerPassportSeries", SelectedContract.Estate.Owner.PassportSeries),
-                    ("OwnerPassportNumber", SelectedContract.Estate.Owner.PassportNumber),
-                    ("OwnerPassportIssuedInfo", SelectedContract.Estate.Owner.PassportIssued),
-                    ("OwnerLivingAddress", SelectedContract.Estate.Owner.LivingAddress),
-                    ("ClientFullName", SelectedContract.Client.FullName),
-                    ("ClientPassportSeries", SelectedContract.Client.PassportSeries),
-                    ("ClientPassportNumber", SelectedContract.Client.PassportNumber),
-                    ("ClientPassportIssuedInfo", SelectedContract.Client.PassportIssued),
-                    ("ClientLivingAddress", SelectedContract.Client.LivingAddress),
-                    ("EstateAddress", SelectedContract.Estate.Address),
-                    ("EstateEffectiveArea", SelectedContract.Estate.Area.ToString()),
-                    //("EstateLivingArea", SelectedContract.Estate.Area.ToString()),
-                    ("EstateCost", SelectedContract.Estate.Cost.ToString()),
-                    ("ContractAmount", SelectedContract.Amount.ToString()),
-                    ("OwnerPassportRegistrationAddress", SelectedContract.Estate.Owner.RegistrationAddress),
-                    ("OwnerPassportPostAddress", SelectedContract.Estate.Owner.LivingAddress),
-                    ("OwnerPassportFullNumber", SelectedContract.Estate.Owner.PassportFullNumber),
-                    ("OwnerPassportIssuedBy", SelectedContract.Estate.Owner.PassportIssuedBy),
-                    ("OwnerPassportIssueDate", SelectedContract.Estate.Owner.PassportIssueDate.ToString("dd.MM.yyyy")),
-                    ("OwnerPhone", SelectedContract.Estate.Owner.Phone),
-                    ("ClientPassportRegistrationAddress", SelectedContract.Client.RegistrationAddress),
-                    ("ClientPassportPostAddress", SelectedContract.Client.LivingAddress),
-                    ("ClientPassportFullNumber", SelectedContract.Client.PassportFullNumber),
-                    ("ClientPassportIssuedBy", SelectedContract.Client.PassportIssuedBy),
-                    ("ClientPassportIssueDate", SelectedContract.Client.PassportIssueDate.ToString("dd.MM.yyyy")),
-                    ("ClientPhone", SelectedContract.Estate.Owner.Phone),
+                    ("OwnerFullName", SelectedItem.Estate.Owner.FullName),
+                    ("OwnerPassportSeries", SelectedItem.Estate.Owner.PassportSeries),
+                    ("OwnerPassportNumber", SelectedItem.Estate.Owner.PassportNumber),
+                    ("OwnerPassportIssuedInfo", SelectedItem.Estate.Owner.PassportIssued),
+                    ("OwnerLivingAddress", SelectedItem.Estate.Owner.LivingAddress),
+                    ("ClientFullName", SelectedItem.Client.FullName),
+                    ("ClientPassportSeries", SelectedItem.Client.PassportSeries),
+                    ("ClientPassportNumber", SelectedItem.Client.PassportNumber),
+                    ("ClientPassportIssuedInfo", SelectedItem.Client.PassportIssued),
+                    ("ClientLivingAddress", SelectedItem.Client.LivingAddress),
+                    ("EstateAddress", SelectedItem.Estate.Address),
+                    ("EstateEffectiveArea", SelectedItem.Estate.Area.ToString()),
+                    //("EstateLivingArea", SelectedItem.Estate.Area.ToString()),
+                    ("EstateCost", SelectedItem.Estate.Cost.ToString()),
+                    ("ContractAmount", SelectedItem.Amount.ToString()),
+                    ("OwnerPassportRegistrationAddress", SelectedItem.Estate.Owner.RegistrationAddress),
+                    ("OwnerPassportPostAddress", SelectedItem.Estate.Owner.LivingAddress),
+                    ("OwnerPassportFullNumber", SelectedItem.Estate.Owner.PassportFullNumber),
+                    ("OwnerPassportIssuedBy", SelectedItem.Estate.Owner.PassportIssuedBy),
+                    ("OwnerPassportIssueDate", SelectedItem.Estate.Owner.PassportIssueDate.ToString("dd.MM.yyyy")),
+                    ("OwnerPhone", SelectedItem.Estate.Owner.Phone),
+                    ("ClientPassportRegistrationAddress", SelectedItem.Client.RegistrationAddress),
+                    ("ClientPassportPostAddress", SelectedItem.Client.LivingAddress),
+                    ("ClientPassportFullNumber", SelectedItem.Client.PassportFullNumber),
+                    ("ClientPassportIssuedBy", SelectedItem.Client.PassportIssuedBy),
+                    ("ClientPassportIssueDate", SelectedItem.Client.PassportIssueDate.ToString("dd.MM.yyyy")),
+                    ("ClientPhone", SelectedItem.Estate.Owner.Phone),
                 };
 
                 //Заменяем параметры в документе на значения.

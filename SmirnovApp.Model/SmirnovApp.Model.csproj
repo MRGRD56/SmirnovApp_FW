@@ -58,6 +58,7 @@
     <Compile Include="DbModels\Service.cs" />
     <Compile Include="DbModels\ServiceCategory.cs" />
     <Compile Include="DbModels\User.cs" />
+    <Compile Include="ICopyable.cs" />
     <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

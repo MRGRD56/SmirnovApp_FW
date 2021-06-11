@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using SmirnovApp.Common;
 using SmirnovApp.Context;
@@ -15,12 +11,28 @@ using SmirnovApp.Model.DbModels;
 
 namespace SmirnovApp.ViewModels.PagesViewModels
 {
+    /// <summary>
+    /// Представляет ViewModel, служащую для работы с сущностями одного типа.
+    /// </summary>
+    /// <typeparam name="T">Тип сущности.</typeparam>
     public class ItemsListViewModel<T> : BaseViewModel where T : class
     {
         private readonly Type[] _typesToLoad;
         public ObservableCollection<T> Items { get; set; }
 
+        public T SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                if (EqualityComparer<T>.Default.Equals(value, _selectedItem)) return;
+                _selectedItem = value;
+                OnPropertyChanged();
+            }
+        }
+
         private readonly SynchronizationContext _syncContext = SynchronizationContext.Current;
+        private T _selectedItem;
 
         public ItemsListViewModel(params Type[] typesToLoad)
         {

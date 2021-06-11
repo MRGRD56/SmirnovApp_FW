@@ -1,18 +1,18 @@
-﻿<Window x:Class="SmirnovApp.Views.Windows.ContractEditDialogWindow"
+﻿<Window x:Class="SmirnovApp.Views.Windows.ServiceEditDialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmirnovApp.Views.Windows"
         xmlns:windowsViewModels="clr-namespace:SmirnovApp.ViewModels.WindowsViewModels"
-        xmlns:converters="clr-namespace:SmirnovApp.Converters"
         mc:Ignorable="d"
-        Style="{StaticResource RootStyle}"
         Title="{Binding WindowTitle}"
-        WindowStartupLocation="CenterScreen"
-        Height="500" Width="400">
+        Height="580" Width="450"
+        MinHeight="580" MinWidth="450"
+        Style="{StaticResource RootStyle}"
+        WindowStartupLocation="CenterScreen">
     <d:Window.DataContext>
-        <windowsViewModels:ContractEditDialogWindowViewModel/>
+        <windowsViewModels:ServiceEditDialogWindowViewModel/>
     </d:Window.DataContext>
     <Grid Margin="5 0">
         <Grid.RowDefinitions>
@@ -26,11 +26,6 @@
                    Style="{StaticResource Heading4}"/>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -65,41 +60,13 @@
             <Label Grid.Row="1" Grid.Column="0" Content="Название"/>
             <TextBox Grid.Row="1" Grid.Column="1" 
                      Text="{Binding Item.Name}"/>
-            <Label Grid.Row="2" Grid.Column="0" Content="Сумма"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Стоимость"/>
             <TextBox Grid.Row="2" Grid.Column="1" 
-                     Text="{Binding Item.Amount}"/>
-            <Label Grid.Row="3" Grid.Column="0" Content="Дата"/>
-            <DatePicker Grid.Row="3" Grid.Column="1" 
-                        SelectedDate="{Binding Item.Date}"/>
-            <Label Grid.Row="4" Grid.Column="0" Content="Статус"/>
-            <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Statuses}"
-                      SelectedItem="{Binding Item.Status}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Converter={StaticResource ContractStatusConverter}}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Label Grid.Row="5" Grid.Column="0" Content="Клиент"/>
-            <ComboBox Grid.Row="5" Grid.Column="1" 
-                      SelectedItem="{Binding Item.Client}"
-                      DisplayMemberPath="FullName"
-                      ItemsSource="{Binding Clients}"/>
-            <Label Grid.Row="6" Grid.Column="0" Content="Сотрудник"/>
-            <ComboBox Grid.Row="6" Grid.Column="1" 
-                      SelectedItem="{Binding Item.Employee}"
-                      DisplayMemberPath="FullName"
-                      ItemsSource="{Binding Employees}"/>
-            <Label Grid.Row="7" Grid.Column="0" Content="Имущество"/>
-            <ComboBox Grid.Row="7" Grid.Column="1" 
-                      SelectedItem="{Binding Item.Estate}"
-                      DisplayMemberPath="Address"
-                      ItemsSource="{Binding Estates}"/>
-            <Label Grid.Row="8" Grid.Column="0" Content="Услуга"/>
-            <ComboBox Grid.Row="8" Grid.Column="1" 
-                      SelectedItem="{Binding Item.Service}"
-                      DisplayMemberPath="Name"
-                      ItemsSource="{Binding Services}"/>
+                     Text="{Binding Item.Cost}"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Категория"/>
+            <TextBox Grid.Row="3" Grid.Column="1" IsReadOnly="True" 
+                     Text="{Binding Item.ServiceCategory, Converter={StaticResource ServiceCategoryConverter}}"
+                     ToolTip="Вы не можете изменить категорию услуги"/>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
                     Margin="0 20">
@@ -107,11 +74,11 @@
                     Style="{StaticResource PrimaryButton}" 
                     Width="90"
                     Command="{Binding OkCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ContractEditDialogWindow}}"/>
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ServiceEditDialogWindow}}"/>
             <Button Content="Отмена" Style="{StaticResource SecondaryButton}"
                     Width="90"
                     Command="{Binding CancelCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ContractEditDialogWindow}}"/>
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ServiceEditDialogWindow}}"/>
         </StackPanel>
     </Grid>
 </Window>

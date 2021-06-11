@@ -134,21 +134,21 @@ namespace SmirnovApp.Model.DbModels
             };
         }
 
-        public override void CopyPropertiesFrom(Client anotherClient)
+        public override void CopyPropertiesFrom(Client source)
         {
-            LastName = anotherClient.LastName;
-            FirstName = anotherClient.FirstName;
-            Patronymic = anotherClient.Patronymic;
-            BirthDate = anotherClient.BirthDate;
-            PassportSeries = anotherClient.PassportSeries;
-            PassportNumber = anotherClient.PassportNumber;
-            PassportIssuedBy = anotherClient.PassportIssuedBy;
-            PassportIssueDate = anotherClient.PassportIssueDate;
-            LivingAddress = anotherClient.LivingAddress;
-            RegistrationAddress = anotherClient.RegistrationAddress;
-            ApplicationDate = anotherClient.ApplicationDate;
+            LastName = source.LastName;
+            FirstName = source.FirstName;
+            Patronymic = source.Patronymic;
+            BirthDate = source.BirthDate;
+            PassportSeries = source.PassportSeries;
+            PassportNumber = source.PassportNumber;
+            PassportIssuedBy = source.PassportIssuedBy;
+            PassportIssueDate = source.PassportIssueDate;
+            LivingAddress = source.LivingAddress;
+            RegistrationAddress = source.RegistrationAddress;
+            ApplicationDate = source.ApplicationDate;
 
-            if (anotherClient is LegalEntityClient legalEntityClient)
+            if (source is LegalEntityClient legalEntityClient)
             {
                 Name = legalEntityClient.Name;
             }

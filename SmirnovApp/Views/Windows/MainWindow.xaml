@@ -16,9 +16,6 @@
     <Window.DataContext>
         <windowsViewModels:MainWindowViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

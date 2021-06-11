@@ -24,7 +24,6 @@ namespace SmirnovApp.Views.Pages
         public ServicesPage()
         {
             InitializeComponent();
-            DataContext = new ItemsListViewModel<Service>();
         }
     }
 }

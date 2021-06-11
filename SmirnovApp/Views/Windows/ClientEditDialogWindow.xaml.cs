@@ -19,11 +19,11 @@ namespace SmirnovApp.Views.Windows
     /// <summary>
     /// Interaction logic for ClientEditDialogWindow.xaml
     /// </summary>
-    public partial class ClientEditDialogWindow : Window
+    public partial class ClientEditDialogWindow : Window, IBaseEditDialogWindow<Client, ClientEditDialogWindowViewModel>
     {
-        private ClientEditDialogWindowViewModel ViewModel => (ClientEditDialogWindowViewModel)DataContext;
+        public ClientEditDialogWindowViewModel ViewModel => (ClientEditDialogWindowViewModel)DataContext;
 
-        public Client Client => ViewModel.Client;
+        public Client Item => ViewModel.Item;
 
         /// <summary>
         /// Создаёт новое окно для создания клиента указанного типа.

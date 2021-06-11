@@ -10,16 +10,55 @@ namespace SmirnovApp.Model.DbModels
     /// Услуга.
     /// </summary>
     [Table("Services")]
-    public class Service : ICategoryble
+    public class Service : NotifyPropertyChanged, ICategoryble, ICloneable, ICopyable<Service>
     {
+        private string _name;
+        private decimal _cost;
+
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
         [DataType("money")]
-        public decimal Cost { get; set; }
-        
+        public decimal Cost
+        {
+            get => _cost;
+            set
+            {
+                if (value == _cost) return;
+                _cost = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ServiceCategory ServiceCategory { get; set; }
         public ServiceCategory GetServiceCategory() => ServiceCategory;
+
+        public object Clone()
+        {
+            return new Service
+            {
+                Id = Id,
+                Name = Name,
+                Cost = Cost
+            };
+        }
+        
+        public void CopyPropertiesFrom(Service source)
+        {
+            Name = source.Name;
+            Cost = source.Cost;
+        }
+
+        public List<Contract> Contracts { get; set; } = new List<Contract>();
     }
 }
