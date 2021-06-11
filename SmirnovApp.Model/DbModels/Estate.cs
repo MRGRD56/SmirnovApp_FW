@@ -9,52 +9,135 @@ namespace SmirnovApp.Model.DbModels
     /// Имущество.
     /// </summary>
     [Table("Estates")]
-    public class Estate : ICloneable
+    public class Estate : NotifyPropertyChanged, ICloneable
     {
+        private string _name;
+        private decimal _cost;
+        private int _area;
+        private int _floorsCount;
+        private int _floor;
+        private string _address;
+        private EstateType _type;
+        private Owner _owner;
         public int Id { get; set; }
 
         /// <summary>
         /// Название.
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Стоимость.
         /// </summary>
-        public decimal Cost { get; set; }
+        public decimal Cost
+        {
+            get => _cost;
+            set
+            {
+                if (value == _cost) return;
+                _cost = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Площадь в м^2.
         /// </summary>
-        public int Area { get; set; }
+        public int Area
+        {
+            get => _area;
+            set
+            {
+                if (value == _area) return;
+                _area = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Количество этажей.
         /// </summary>
-        public int FloorsCount { get; set; }
+        public int FloorsCount
+        {
+            get => _floorsCount;
+            set
+            {
+                if (value == _floorsCount) return;
+                _floorsCount = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Этаж.
         /// </summary>
-        public int Floor { get; set; }
+        public int Floor
+        {
+            get => _floor;
+            set
+            {
+                if (value == _floor) return;
+                _floor = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Адрес, включая квартиру, если дом многоквартирный.
         /// </summary>
-        public string Address { get; set; }
+        public string Address
+        {
+            get => _address;
+            set
+            {
+                if (value == _address) return;
+                _address = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Вид недвижимости.
         /// </summary>
-        public virtual EstateType Type { get; set; }
+        public virtual EstateType Type
+        {
+            get => _type;
+            set
+            {
+                if (Equals(value, _type)) return;
+                _type = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int TypeId { get; set; }
 
         /// <summary>
         /// Владелец.
         /// </summary>
-        public virtual Owner Owner { get; set; }
+        public virtual Owner Owner
+        {
+            get => _owner;
+            set
+            {
+                if (Equals(value, _owner)) return;
+                _owner = value;
+                OnPropertyChanged();
+            }
+        }
+
         public int OwnerId { get; set; }
+
+        public List<Contract> Contracts { get; set; } = new List<Contract>();
 
         public object Clone()
         {

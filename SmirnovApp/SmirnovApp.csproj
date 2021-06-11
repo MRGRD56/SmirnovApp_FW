@@ -203,6 +203,7 @@
     <Compile Include="Converters\ServiceCategoryConverter.cs" />
     <Compile Include="Extensions\ContractExtensions.cs" />
     <Compile Include="Extensions\DbContextExtensions.cs" />
+    <Compile Include="Extensions\EstateExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\Validation.cs" />
     <Compile Include="Extensions\XWPFDocumentExtensions.cs" />

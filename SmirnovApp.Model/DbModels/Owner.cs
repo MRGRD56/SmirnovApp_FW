@@ -11,15 +11,36 @@ namespace SmirnovApp.Model.DbModels
     [Table("Owners")]
     public class Owner : Person, ICopyable<Owner>
     {
+        private DateTime _applicationDate = DateTime.Now;
+        private string _phone;
+
         /// <summary>
         /// Номер телефона.
         /// </summary>
-        public string Phone { get; set; }
+        public string Phone
+        {
+            get => _phone;
+            set
+            {
+                if (value == _phone) return;
+                _phone = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Дата обращения.
         /// </summary>
-        public DateTime ApplicationDate { get; set; } = DateTime.Now;
+        public DateTime ApplicationDate
+        {
+            get => _applicationDate;
+            set
+            {
+                if (value.Equals(_applicationDate)) return;
+                _applicationDate = value;
+                OnPropertyChanged();
+            }
+        }
 
         public List<Estate> Estates { get; set; } = new List<Estate>();
 

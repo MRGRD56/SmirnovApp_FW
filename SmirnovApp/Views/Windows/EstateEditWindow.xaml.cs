@@ -17,17 +17,17 @@ using SmirnovApp.ViewModels.WindowsViewModels;
 namespace SmirnovApp.Views.Windows
 {
     /// <summary>
-    /// Interaction logic for EstateEditWindow.xaml
+    /// Interaction logic for EstateEditDialogWindow.xaml
     /// </summary>
-    public partial class EstateEditWindow : Window, IBaseEditDialogWindow<Estate, EstateEditDialogWindowViewModel>
+    public partial class EstateEditDialogWindow : Window, IBaseEditDialogWindow<Estate, EstateEditDialogWindowViewModel>
     {
-        public EstateEditWindow()
+        public EstateEditDialogWindow()
         {
             InitializeComponent();
             DataContext = new EstateEditDialogWindowViewModel();
         }
 
-        public EstateEditWindow(Estate estate)
+        public EstateEditDialogWindow(Estate estate)
         {
             InitializeComponent();
             DataContext = new EstateEditDialogWindowViewModel(estate);

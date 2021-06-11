@@ -14,6 +14,7 @@ namespace SmirnovApp.Model.DbModels
     {
         private string _name;
         private decimal _cost;
+        private ServiceCategory _serviceCategory;
 
         public int Id { get; set; }
 
@@ -40,7 +41,17 @@ namespace SmirnovApp.Model.DbModels
             }
         }
 
-        public ServiceCategory ServiceCategory { get; set; }
+        public ServiceCategory ServiceCategory
+        {
+            get => _serviceCategory;
+            set
+            {
+                if (value == _serviceCategory) return;
+                _serviceCategory = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ServiceCategory GetServiceCategory() => ServiceCategory;
 
         public object Clone()

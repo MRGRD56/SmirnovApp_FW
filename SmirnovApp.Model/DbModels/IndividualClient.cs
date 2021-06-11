@@ -29,7 +29,7 @@ namespace SmirnovApp.Model.DbModels
                 LivingAddress = LivingAddress,
                 RegistrationAddress = RegistrationAddress,
                 ApplicationDate = ApplicationDate
-            };
+            }; 
         }
         
         public override void CopyPropertiesFrom(Client source)
