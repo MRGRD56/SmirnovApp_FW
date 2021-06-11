@@ -35,7 +35,8 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" Style="{StaticResource ReadonlyDataGrid}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" Style="{StaticResource ReadonlyDataGrid}"
+                  SelectedItem="{Binding SelectedItem}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
@@ -44,6 +45,7 @@
                 <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, ConverterCulture=ru-RU, StringFormat={}{0:d}}"/>
                 <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}"/>
                 <DataGridTextColumn Header="Дата обращения" Binding="{Binding ApplicationDate, ConverterCulture=ru-RU, StringFormat={}{0:d}}"/>
+                <DataGridTextColumn Header="Имущества" Binding="{Binding Estates.Count}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

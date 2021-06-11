@@ -40,5 +40,27 @@ namespace SmirnovApp.Model.DbModels
         ///// </summary>
         //public Owner Owner { get; set; }
         //public int? OwnerId;
+
+        public override object Clone()
+        {
+            return new Employee
+            {
+                Id = Id,
+                LastName = LastName,
+                FirstName = FirstName,
+                Patronymic = Patronymic,
+                BirthDate = BirthDate,
+                PassportSeries = PassportSeries,
+                PassportNumber = PassportNumber,
+                PassportIssuedBy = PassportIssuedBy,
+                PassportIssueDate = PassportIssueDate,
+                LivingAddress = LivingAddress,
+                RegistrationAddress = RegistrationAddress,
+                Phone = Phone,
+                Position = Position,
+                PositionId = PositionId,
+                Salary = Salary
+            };
+        }
     }
 }

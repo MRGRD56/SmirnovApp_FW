@@ -29,7 +29,7 @@ namespace SmirnovApp.ViewModels.WindowsViewModels
         }
 
         public override string WindowTitle => (IsEdit ? "Редактирование" : "Добавление") + " услуги";
-
+        
         protected override bool OkBeforeClose(Window window)
         {
             var errors = new List<string>();

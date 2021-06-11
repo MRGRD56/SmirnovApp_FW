@@ -9,7 +9,7 @@ namespace SmirnovApp.Model.DbModels
     /// Имущество.
     /// </summary>
     [Table("Estates")]
-    public class Estate
+    public class Estate : ICloneable
     {
         public int Id { get; set; }
 
@@ -55,5 +55,23 @@ namespace SmirnovApp.Model.DbModels
         /// </summary>
         public virtual Owner Owner { get; set; }
         public int OwnerId { get; set; }
+
+        public object Clone()
+        {
+            return new Estate
+            {
+                Id = Id,
+                Name = Name,
+                Cost = Cost,
+                Area = Area,
+                FloorsCount = FloorsCount,
+                Floor = Floor,
+                Address = Address,
+                Type = Type,
+                TypeId = TypeId,
+                Owner = Owner,
+                OwnerId = OwnerId
+            };
+        }
     }
 }

@@ -218,7 +218,9 @@
     <Compile Include="ViewModels\WindowsViewModels\BaseEditDialogViewModel.cs" />
     <Compile Include="ViewModels\WindowsViewModels\ClientEditDialogWindowViewModel.cs" />
     <Compile Include="ViewModels\WindowsViewModels\ContractEditDialogWindowViewModel.cs" />
+    <Compile Include="ViewModels\WindowsViewModels\EstateEditDialogWindowViewModel.cs" />
     <Compile Include="ViewModels\WindowsViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\WindowsViewModels\OwnerEditDialogWindowViewModel.cs" />
     <Compile Include="ViewModels\WindowsViewModels\ServiceEditDialogWindowViewModel.cs" />
     <Compile Include="Views\Pages\ClientsPage.xaml.cs">
       <DependentUpon>ClientsPage.xaml</DependentUpon>
@@ -244,6 +246,9 @@
     <Compile Include="Views\Pages\ServicesPage.xaml.cs">
       <DependentUpon>ServicesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Windows\EstateEditWindow.xaml.cs">
+      <DependentUpon>EstateEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\IBaseEditDialogWindow.cs" />
     <Compile Include="Views\Windows\ClientEditDialogWindow.xaml.cs">
       <DependentUpon>ClientEditDialogWindow.xaml</DependentUpon>
@@ -257,6 +262,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Windows\OwnerEditDialogWindow.xaml.cs">
+      <DependentUpon>OwnerEditDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\ServiceEditDialogWindow.xaml.cs">
       <DependentUpon>ServiceEditDialogWindow.xaml</DependentUpon>
@@ -329,9 +337,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Windows\EstateEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Windows\OwnerEditDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\ServiceEditDialogWindow.xaml">
       <SubType>Designer</SubType>

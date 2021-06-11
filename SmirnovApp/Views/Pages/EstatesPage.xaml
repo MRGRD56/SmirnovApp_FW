@@ -35,7 +35,8 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" Style="{StaticResource ReadonlyDataGrid}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Items}" Style="{StaticResource ReadonlyDataGrid}"
+                  SelectedItem="{Binding SelectedItem}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>

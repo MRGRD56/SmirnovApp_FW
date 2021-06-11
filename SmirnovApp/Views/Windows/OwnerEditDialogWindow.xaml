@@ -1,4 +1,4 @@
-﻿<Window x:Class="SmirnovApp.Views.Windows.ClientEditDialogWindow"
+﻿<Window x:Class="SmirnovApp.Views.Windows.OwnerEditDialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,6 +10,9 @@
         Height="580" Width="450"
         MinHeight="580" MinWidth="450"
         Title="{Binding WindowTitle}">
+    <d:Window.DataContext>
+        <windowsViewModels:OwnerEditDialogWindowViewModel/>
+    </d:Window.DataContext>
     <Grid Margin="5 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -62,28 +65,20 @@
             <TextBox Grid.Row="0" Grid.Column="1" 
                      Text="{Binding Item.Id}" IsReadOnly="True"
                      Visibility="{Binding IsEdit, Converter={StaticResource VisibilityConverter}}"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="Название" 
-                   Visibility="{Binding IsLegalEntityClient, Converter={StaticResource VisibilityConverter}}"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Фамилия"/>
             <TextBox Grid.Row="1" Grid.Column="1" 
-                     Text="{Binding LegalEntityName}"
-                     Visibility="{Binding IsLegalEntityClient, Converter={StaticResource VisibilityConverter}}"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Директор юрид. лица" Style="{StaticResource Heading6}"
-                       Visibility="{Binding IsLegalEntityClient, Converter={StaticResource VisibilityConverter}}"
-                       FontWeight="SemiBold" Margin="10 5" TextAlignment="Center"/>
-            <Label Grid.Row="3" Grid.Column="0" Content="Фамилия"/>
-            <TextBox Grid.Row="3" Grid.Column="1" 
                      Text="{Binding Item.LastName}"/>
-            <Label Grid.Row="4" Grid.Column="0" Content="Имя"/>
-            <TextBox Grid.Row="4" Grid.Column="1" 
+            <Label Grid.Row="2" Grid.Column="0" Content="Имя"/>
+            <TextBox Grid.Row="2" Grid.Column="1" 
                         Text="{Binding Item.FirstName}"/>
-            <Label Grid.Row="5" Grid.Column="0" Content="Отчество"/>
-            <TextBox Grid.Row="5" Grid.Column="1" 
+            <Label Grid.Row="3" Grid.Column="0" Content="Отчество"/>
+            <TextBox Grid.Row="3" Grid.Column="1" 
                      Text="{Binding Item.Patronymic}"/>
-            <Label Grid.Row="6" Grid.Column="0" Content="Дата рождения"/>
-            <DatePicker Grid.Row="6" Grid.Column="1" 
+            <Label Grid.Row="4" Grid.Column="0" Content="Дата рождения"/>
+            <DatePicker Grid.Row="4" Grid.Column="1" 
                         SelectedDate="{Binding Item.BirthDate}"/>
-            <Label Grid.Row="7" Grid.Column="0" Content="Паспорт"/>
-            <Grid Grid.Row="7" Grid.Column="1">
+            <Label Grid.Row="5" Grid.Column="0" Content="Паспорт"/>
+            <Grid Grid.Row="5" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
@@ -91,20 +86,23 @@
                 <TextBox Grid.Column="0" Text="{Binding Item.PassportSeries}" ToolTip="Серия паспорта"/>
                 <TextBox Grid.Column="1" Text="{Binding Item.PassportNumber}" ToolTip="Номер паспорта"/>
             </Grid>
-            <Label Grid.Row="8" Grid.Column="0" Content="Выдан"/>
-            <TextBox Grid.Row="8" Grid.Column="1" ToolTip="Кем выдан паспорт"
+            <Label Grid.Row="6" Grid.Column="0" Content="Выдан"/>
+            <TextBox Grid.Row="6" Grid.Column="1" ToolTip="Кем выдан паспорт"
                      Text="{Binding Item.PassportIssuedBy}"/>
-            <Label Grid.Row="9" Grid.Column="0" Content="Дата выдачи"/>
-            <DatePicker Grid.Row="9" Grid.Column="1" ToolTip="Дата выдачи паспорта"
+            <Label Grid.Row="7" Grid.Column="0" Content="Дата выдачи"/>
+            <DatePicker Grid.Row="7" Grid.Column="1" ToolTip="Дата выдачи паспорта"
                         SelectedDate="{Binding Item.PassportIssueDate}"/>
-            <Label Grid.Row="10" Grid.Column="0" Content="Адрес регистрации"/>
-            <TextBox Grid.Row="10" Grid.Column="1"
+            <Label Grid.Row="8" Grid.Column="0" Content="Адрес регистрации"/>
+            <TextBox Grid.Row="8" Grid.Column="1"
                      Text="{Binding Item.RegistrationAddress}"/>
-            <Label Grid.Row="11" Grid.Column="0" Content="Адрес проживания"/>
-            <TextBox Grid.Row="11" Grid.Column="1"
+            <Label Grid.Row="9" Grid.Column="0" Content="Адрес проживания"/>
+            <TextBox Grid.Row="9" Grid.Column="1"
                      Text="{Binding Item.LivingAddress}"/>
-            <Label Grid.Row="12" Grid.Column="0" Content="Дата обращения"/>
-            <DatePicker Grid.Row="12" Grid.Column="1"
+            <Label Grid.Row="10" Grid.Column="0" Content="Номер телефона"/>
+            <TextBox Grid.Row="10" Grid.Column="1"
+                     Text="{Binding Item.Phone}"/>
+            <Label Grid.Row="11" Grid.Column="0" Content="Дата обращения"/>
+            <DatePicker Grid.Row="11" Grid.Column="1"
                         SelectedDate="{Binding Item.ApplicationDate}"/>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
@@ -113,11 +111,11 @@
                     Style="{StaticResource PrimaryButton}" 
                     Width="90"
                     Command="{Binding OkCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ClientEditDialogWindow}}"/>
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:OwnerEditDialogWindow}}"/>
             <Button Content="Отмена" Style="{StaticResource SecondaryButton}"
                     Width="90"
                     Command="{Binding CancelCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:ClientEditDialogWindow}}"/>
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=local:OwnerEditDialogWindow}}"/>
         </StackPanel>
     </Grid>
 </Window>

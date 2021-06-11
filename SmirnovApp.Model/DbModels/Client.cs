@@ -23,8 +23,6 @@ namespace SmirnovApp.Model.DbModels
             }
         }
 
-        public abstract object Clone();
-
         /// <summary>
         /// Копирует значения свойств из другого объекта Client.
         /// </summary>

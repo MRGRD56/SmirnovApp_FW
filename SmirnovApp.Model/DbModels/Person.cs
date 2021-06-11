@@ -9,7 +9,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Человек.
     /// </summary>
-    public abstract class Person : NotifyPropertyChanged
+    public abstract class Person : NotifyPropertyChanged, ICloneable
     {
         private string _lastName;
         private string _firstName;
@@ -195,5 +195,7 @@ namespace SmirnovApp.Model.DbModels
                 OnPropertyChanged("Director");
             }
         }
+
+        public abstract object Clone();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SmirnovApp.Common;
 using SmirnovApp.Model.DbModels;
 
 namespace SmirnovApp.ViewModels.PagesViewModels
@@ -15,8 +16,19 @@ namespace SmirnovApp.ViewModels.PagesViewModels
 
         }
 
-        public ICommand AddCommand { get; }
-        public ICommand EditCommand { get; }
-        public ICommand RemoveCommand { get; }
+        public ICommand AddCommand => new Command(parameter =>
+        {
+
+        });
+
+        public ICommand EditCommand => new Command(parameter =>
+        {
+
+        }, parameter => SelectedItem != null);
+
+        public ICommand RemoveCommand => new Command(parameter =>
+        {
+
+        }, parameter => SelectedItem != null);
     }
 }

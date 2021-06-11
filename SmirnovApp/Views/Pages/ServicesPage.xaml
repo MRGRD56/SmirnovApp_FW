@@ -41,6 +41,7 @@
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Стоимость" Binding="{Binding Cost, StringFormat={}{0:C}, ConverterCulture=ru-RU}"/>
                 <DataGridTextColumn Header="Категория" Binding="{Binding ServiceCategory, Converter={StaticResource ServiceCategoryConverter}}"/>
+                <DataGridTextColumn Header="Договоров" Binding="{Binding Contracts.Count}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
