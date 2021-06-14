@@ -9,7 +9,7 @@ namespace SmirnovApp.Model.DbModels
     /// Владелец.
     /// </summary>
     [Table("Owners")]
-    public class Owner : Person, ICopyable<Owner>
+    public class Owner : InitialData, ICopyable<Owner>
     {
         private DateTime _applicationDate = DateTime.Now;
         private string _phone;

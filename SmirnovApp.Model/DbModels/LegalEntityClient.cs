@@ -99,7 +99,7 @@ namespace SmirnovApp.Model.DbModels
         /// <summary>
         /// Директор юридического лица.
         /// </summary>
-        public Person Director => new IndividualClient
+        public InitialData Director => new IndividualClient
         {
             FirstName = FirstName,
             LastName = LastName,

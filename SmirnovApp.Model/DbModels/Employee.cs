@@ -10,7 +10,7 @@ namespace SmirnovApp.Model.DbModels
     /// Сотрудник.
     /// </summary>
     [Table("Employees")]
-    public class Employee : Person
+    public class Employee : InitialData
     {
         /// <summary>
         /// Зарплата.

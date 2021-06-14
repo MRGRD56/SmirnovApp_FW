@@ -53,7 +53,7 @@
     <Compile Include="DbModels\IndividualClient.cs" />
     <Compile Include="DbModels\LegalEntityClient.cs" />
     <Compile Include="DbModels\Owner.cs" />
-    <Compile Include="DbModels\Person.cs" />
+    <Compile Include="DbModels\InitialData.cs" />
     <Compile Include="DbModels\Position.cs" />
     <Compile Include="DbModels\Service.cs" />
     <Compile Include="DbModels\ServiceCategory.cs" />

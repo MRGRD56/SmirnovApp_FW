@@ -8,7 +8,7 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Клиент.
     /// </summary>
-    public abstract class Client : Person, ICloneable, ICopyable<Client>
+    public abstract class Client : InitialData, ICloneable, ICopyable<Client>
     {
         private DateTime _applicationDate = DateTime.Now;
 

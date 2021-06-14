@@ -9,7 +9,8 @@ namespace SmirnovApp.Model.DbModels
     /// <summary>
     /// Человек.
     /// </summary>
-    public abstract class Person : NotifyPropertyChanged, ICloneable
+    [Table("InitialData")]
+    public abstract class InitialData : NotifyPropertyChanged, ICloneable
     {
         private string _lastName;
         private string _firstName;
@@ -21,6 +22,7 @@ namespace SmirnovApp.Model.DbModels
         private DateTime _passportIssueDate = DateTime.Now;
         private string _livingAddress;
         private string _registrationAddress;
+
         public int Id { get; set; }
 
         /// <summary>

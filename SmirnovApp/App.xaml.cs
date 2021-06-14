@@ -43,18 +43,33 @@ namespace SmirnovApp
                     {
                         Login = "1",
                         Password = "1",
-                        ServicesDirection = ServiceCategory.Legal
+                        ServicesDirection = ServiceCategory.Legal,
+                        BirthDate = DateTime.Parse("1999-01-01"),
+                        LastName = "Хлопунов",
+                        FirstName = "Кирилл",
+                        Patronymic = "Петрович",
+                        LivingAddress = "gvfwefjpwef",
+                        RegistrationAddress = "ewfewrw",
+                        PassportSeries = "2312",
+                        PassportNumber = "123123",
+                        PassportIssuedBy = "fewwrwerwer",
+                        PassportIssueDate = DateTime.Parse("2015-04-02")
                     },
                     new User()
                     {
                         Login = "2",
                         Password = "2",
-                        ServicesDirection = ServiceCategory.Realtor
-                    },
-                    new User()
-                    {
-                        Login = "ivanov",
-                        Password = "123123"
+                        ServicesDirection = ServiceCategory.Realtor,
+                        BirthDate = DateTime.Parse("1998-01-22"),
+                        LastName = "Иванова",
+                        FirstName = "Анна",
+                        Patronymic = "Александровна",
+                        LivingAddress = "gvfwefjpweцукf",
+                        RegistrationAddress = "ewfццкewrw",
+                        PassportSeries = "3312",
+                        PassportNumber = "199123",
+                        PassportIssuedBy = "цупцауrццук",
+                        PassportIssueDate = DateTime.Parse("2015-05-02")
                     }
                 };
                 db.Users.AddRange(users);

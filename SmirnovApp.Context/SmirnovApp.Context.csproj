@@ -169,6 +169,10 @@
     <Compile Include="Migrations\20210605151440_July05Migration.designer.cs">
       <DependentUpon>20210605151440_July05Migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20210614055016_PersonsToInitialDataMigration.cs" />
+    <Compile Include="Migrations\20210614055016_PersonsToInitialDataMigration.designer.cs">
+      <DependentUpon>20210614055016_PersonsToInitialDataMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

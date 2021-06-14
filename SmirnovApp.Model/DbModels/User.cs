@@ -9,10 +9,8 @@ namespace SmirnovApp.Model.DbModels
     /// Пользователь системы.
     /// </summary>
     [Table("Users")]
-    public class User
+    public class User : InitialData
     {
-        public int Id { get; set; }
-
         /// <summary>
         /// Логин.
         /// </summary>
@@ -51,5 +49,26 @@ namespace SmirnovApp.Model.DbModels
         /// <param name="password">Проверяемый пароль.</param>
         /// <returns></returns>
         public bool HasCredentials(string login, string password) => string.Equals(Login, login) && string.Equals(Password, password);
+		
+		public override object Clone()
+        {
+            return new User
+            {
+                Id = Id,
+                LastName = LastName,
+                FirstName = FirstName,
+                Patronymic = Patronymic,
+                BirthDate = BirthDate,
+                PassportSeries = PassportSeries,
+                PassportNumber = PassportNumber,
+                PassportIssuedBy = PassportIssuedBy,
+                PassportIssueDate = PassportIssueDate,
+                LivingAddress = LivingAddress,
+                RegistrationAddress = RegistrationAddress,
+				Login = Login,
+				Password = Password,
+				ServicesDirection = ServicesDirection
+            };
+        }
     }
 }

@@ -105,7 +105,7 @@ namespace SmirnovApp.Context
         /// <summary>
         /// Люди.
         /// </summary>
-        public DbSet<Person> Persons { get; set; }
+        public DbSet<InitialData> Persons { get; set; }
 
         /// <summary>
         /// Должности.
