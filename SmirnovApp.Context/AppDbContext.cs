@@ -13,7 +13,7 @@ namespace SmirnovApp.Context
         private static string GetConnectionString()
         {
             const string defaultConnectionString =
-                @"Server=localhost\SQLEXPRESS;Database=SmirnovAppFw;Trusted_connection=True;";
+                @"Server=localhost\SQLEXPRESS;Database=SmirnovAppFw_V3;Trusted_connection=True;";
 
             string connectionString;
 

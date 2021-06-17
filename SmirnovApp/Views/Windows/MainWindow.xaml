@@ -30,8 +30,9 @@
                            VerticalAlignment="Center"
                            HorizontalAlignment="Left"/>
             </StackPanel>
-            <TextBlock Style="{StaticResource Heading4}" Margin="0 0 5 0" 
-                       Text="{Binding WindowTitle}" 
+            <TextBlock Style="{StaticResource Heading4}"
+                       Margin="0 0 5 0"
+                       Text="{Binding WindowTitle}"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
